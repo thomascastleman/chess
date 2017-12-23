@@ -17,27 +17,17 @@ public class Main {
 	public static final char BLACK_KNIGHT = '\u265e';
 	public static final char BLACK_PAWN = '\u265f';
 	
-
+	public enum color {BLACK, WHITE};
+	
 	public static void main(String[] args) {
-		System.out.println("PAWNS:");
-		System.out.println(WHITE_PAWN);
-		System.out.println(BLACK_PAWN);
+		ChessGame g = new ChessGame();
 		
-		System.out.println("BISHOPS");
-		System.out.println(BLACK_BISHOP);
-		System.out.println(WHITE_BISHOP);
-		
-		System.out.println("Rooks");
-		System.out.println(WHITE_ROOK);
-		System.out.println(BLACK_ROOK);
-		
-		System.out.println("Kings");
-		System.out.println(BLACK_KING);
-		System.out.println(WHITE_KING);
-		
-		System.out.println("Queens");
-		System.out.println(BLACK_QUEEN);
-		System.out.println(WHITE_QUEEN);
+		for (char[] r : g.initialBoard) {
+			for (char c : r) {
+				System.out.print(c + " ");
+			}
+			System.out.println("");
+		}
 		
 	}
 
