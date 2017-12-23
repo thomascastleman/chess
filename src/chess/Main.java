@@ -22,12 +22,10 @@ public class Main {
 	public static void main(String[] args) {
 		ChessGame g = new ChessGame();
 		
-		for (char[] r : g.initialBoard) {
-			for (char c : r) {
-				System.out.print(c + " ");
-			}
-			System.out.println("");
-		}
+		
+		g.currentState = new State();
+		g.currentState.board = g.initialBoard;
+		g.currentState.log();
 		
 	}
 
