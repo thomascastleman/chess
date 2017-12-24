@@ -10,7 +10,7 @@ public class State {
 	
 	// construct state from board
 	public State (char[][] _board) {
-		this.board = Main.boardCopy(_board);	// make copy of board
+		this.board = Util.boardCopy(_board);	// make copy of board
 		
 		// find king positions
 		for (int r = 0; r < this.board.length; r++) {
@@ -26,7 +26,7 @@ public class State {
 	}
 	
 	public State(State prevState, Position from, Position to) {
-		this.board = Main.boardCopy(prevState.board);	// copy previous board
+		this.board = Util.boardCopy(prevState.board);	// copy previous board
 		
 		char fromPiece = this.board[from.row][from.col];
 		char toPiece = this.board[to.row][to.col];
@@ -58,11 +58,11 @@ public class State {
 	
 	// determine whether a move puts its king in check
 	public boolean moveMeetsCheckConstraint(Position from, Position to) {
-		Main.Color pieceColor = Main.getColor(this.board[from.row][from.col]);
+		Main.Color pieceColor = Util.getColor(this.board[from.row][from.col]);
 		Position relevantKing = pieceColor == Main.Color.BLACK ? this.blackKing : this.whiteKing;
 		
 		// if previously potentially protecting king
-		if (Main.onSameLineOfThreat(from, relevantKing)) {
+		if (Util.onSameLineOfThreat(from, relevantKing)) {
 			State moveState = new State(this, from, to);
 			Position relKingInMove = pieceColor == Main.Color.BLACK ? moveState.blackKing : moveState.whiteKing;
 			

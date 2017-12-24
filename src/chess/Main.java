@@ -1,7 +1,5 @@
 package chess;
 
-import java.util.Arrays;
-
 public class Main {
 	
 	// chess piece character encodings
@@ -35,6 +33,20 @@ public class Main {
 	
 	public enum Color {BLACK, WHITE};
 	
+	public static Position[] axisMoves = new Position[] {
+			new Position(0, 1),
+			new Position(1, 0),
+			new Position(0, -1),
+			new Position(-1, 0),
+	};
+	
+	public static Position[] diagMoves = new Position[] {
+			new Position(1, 1),
+			new Position(1, -1),
+			new Position(-1, -1),
+			new Position(-1, 1),
+	};
+	
 	public static void main(String[] args) {
 		
 		Player white = new Human(Color.WHITE);
@@ -51,58 +63,6 @@ public class Main {
 		g.currentState.log();
 		g.currentState.whiteKing.log();
 		g.currentState.blackKing.log();
-	}
-	
-	// deep copy a board
-	public static char[][] boardCopy(char[][] board) {
-		char[][] copy = new char[board.length][board.length];
-		for (int r = 0; r < board.length; r++) {
-			for (int c = 0; c < board.length; c++) {
-				copy[r][c] = board[r][c];
-			}
-		}
-		return copy;
-	}
-	
-	// check if two positions are on the same line of threat
-	public static boolean onSameLineOfThreat(Position p1, Position p2) {
-		return (p1.row == p2.row || p1.col == p2.col) || (Math.abs(p1.row - p2.row) == Math.abs(p1.col - p2.col));		
-	}
-	
-	// get color type of piece
-	public static Color getColor(char piece) {
-		if (piece == BLACK_KING || piece == BLACK_QUEEN || piece == BLACK_ROOK || piece == BLACK_BISHOP || piece == BLACK_KNIGHT || piece == BLACK_PAWN) {
-			return Color.BLACK;
-		} else {
-			return Color.WHITE;
-		}
-	}
-	
-	
-	// PIECE CHECKING FUNCTIONS:
-	
-	public static boolean isPawn(char piece) {
-		return piece == WHITE_PAWN || piece == BLACK_PAWN;
-	}
-	
-	public static boolean isKnight(char piece) {
-		return piece == WHITE_KNIGHT || piece == BLACK_KNIGHT;
-	}
-	
-	public static boolean isQueen(char piece) {
-		return piece == WHITE_QUEEN || piece == BLACK_QUEEN;
-	}
-	
-	public static boolean isRook(char piece) {
-		return piece == WHITE_ROOK || piece == BLACK_ROOK;
-	}
-	
-	public static boolean isBishop(char piece) {
-		return piece == WHITE_BISHOP || piece == BLACK_BISHOP;
-	}
-	
-	public static boolean isNMove(char piece) {
-		return isQueen(piece) || isRook(piece) || isBishop(piece);
 	}
 
 }
