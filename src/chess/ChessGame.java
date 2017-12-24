@@ -10,7 +10,6 @@ public class ChessGame {
 	public State currentState = new State(Main.initialBoard);
 	
 	public ChessGame(Player white, Player black) {
-		
 		this.player_white = white;
 		this.player_black = black;
 	}

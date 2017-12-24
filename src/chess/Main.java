@@ -77,6 +77,33 @@ public class Main {
 			return Color.WHITE;
 		}
 	}
+	
+	
+	// PIECE CHECKING FUNCTIONS:
+	
+	public static boolean isPawn(char piece) {
+		return piece == WHITE_PAWN || piece == BLACK_PAWN;
+	}
+	
+	public static boolean isKnight(char piece) {
+		return piece == WHITE_KNIGHT || piece == BLACK_KNIGHT;
+	}
+	
+	public static boolean isQueen(char piece) {
+		return piece == WHITE_QUEEN || piece == BLACK_QUEEN;
+	}
+	
+	public static boolean isRook(char piece) {
+		return piece == WHITE_ROOK || piece == BLACK_ROOK;
+	}
+	
+	public static boolean isBishop(char piece) {
+		return piece == WHITE_BISHOP || piece == BLACK_BISHOP;
+	}
+	
+	public static boolean isNMove(char piece) {
+		return isQueen(piece) || isRook(piece) || isBishop(piece);
+	}
 
 }
 
