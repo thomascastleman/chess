@@ -58,7 +58,19 @@ public class State {
 	
 	// determine whether a move puts its king in check
 	public boolean moveMeetsCheckConstraint(Position from, Position to) {
-		return true;
+		Main.Color pieceColor = Main.getColor(this.board[from.row][from.col]);
+		Position relevantKing = pieceColor == Main.Color.BLACK ? this.blackKing : this.whiteKing;
+		
+		// if previously potentially protecting king
+		if (Main.onSameLineOfThreat(from, relevantKing)) {
+			State moveState = new State(this, from, to);
+			Position relKingInMove = pieceColor == Main.Color.BLACK ? moveState.blackKing : moveState.whiteKing;
+			
+			// return whether king is threatened as result of move
+			return moveState.isThreatened(relKingInMove);
+		} else {
+			return false;
+		}
 	}
 	
 	public void log() {

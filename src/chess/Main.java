@@ -1,5 +1,7 @@
 package chess;
 
+import java.util.Arrays;
+
 public class Main {
 	
 	// chess piece character encodings
@@ -61,5 +63,28 @@ public class Main {
 		}
 		return copy;
 	}
+	
+	// check if two positions are on the same line of threat
+	public static boolean onSameLineOfThreat(Position p1, Position p2) {
+		return (p1.row == p2.row || p1.col == p2.col) || (Math.abs(p1.row - p2.row) == Math.abs(p1.col - p2.col));		
+	}
+	
+	// get color type of piece
+	public static Color getColor(char piece) {
+		if (piece == BLACK_KING || piece == BLACK_QUEEN || piece == BLACK_ROOK || piece == BLACK_BISHOP || piece == BLACK_KNIGHT || piece == BLACK_PAWN) {
+			return Color.BLACK;
+		} else {
+			return Color.WHITE;
+		}
+	}
 
 }
+
+
+
+
+
+
+
+
+
