@@ -2,6 +2,6 @@ package chess;
 
 public interface Player {
 	
-	public Move getMove();
+	public Move getMove(State s);
 	
 }

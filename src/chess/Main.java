@@ -81,7 +81,10 @@ public class Main {
 		
 		
 		Vector piece = new Vector(3, 6);
-		g.currentState = new State(g.currentState, piece, piece.add(pawnMoves[3].scalarMult(-1)));
+		Vector delta = knightMoves[2];
+		Move mv = new Move(piece, piece.add(delta));
+		
+		g.currentState.makeMove(mv);
 		
 		g.currentState.log();
 	}

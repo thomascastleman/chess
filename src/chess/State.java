@@ -24,9 +24,18 @@ public class State {
 			}
 		}
 	}
-	
-	public State(State prevState, Vector from, Vector to) {
+
+	public State(State prevState, Move mv) {
 		this.board = Util.boardCopy(prevState.board);	// copy previous board
+		this.whiteKing = prevState.whiteKing.copy();	// copy previous king positions
+		this.blackKing = prevState.blackKing.copy();
+		
+		this.makeMove(mv);
+	}
+	
+	// alter this state to reflect a move
+	public void makeMove(Move mv) {
+		Vector from = mv.from, to = mv.to;
 		
 		char fromPiece = this.board[from.row][from.col];
 		char toPiece = this.board[to.row][to.col];
@@ -38,17 +47,13 @@ public class State {
 			this.whiteKing = to;
 		}
 		
-		// copy over king positions
-		if (this.whiteKing == null) {
-			this.whiteKing = prevState.whiteKing.copy();
-		}
-		if (this.blackKing == null) {
-			this.blackKing = prevState.blackKing.copy();
-		}
-		
 		// move piece
-		this.board[to.row][to.col] = this.board[from.row][from.col];
+		this.board[to.row][to.col] = fromPiece;
 		this.board[from.row][from.col] = Main.NULL_CHAR;
+	}
+	
+	public boolean isWin() {
+		return true;
 	}
 	
 	// determine whether a position is being threatened on this state
@@ -57,13 +62,13 @@ public class State {
 	}
 	
 	// determine whether a move puts its king in check
-	public boolean moveMeetsCheckConstraint(Vector from, Vector to) {
-		Main.Color pieceColor = Util.getColor(this.board[from.row][from.col]);
+	public boolean moveMeetsCheckConstraint(Move mv) {
+		Main.Color pieceColor = Util.getColor(this.board[mv.from.row][mv.from.col]);
 		Vector relevantKing = pieceColor == Main.Color.BLACK ? this.blackKing : this.whiteKing;
 		
 		// if previously potentially protecting king
-		if (Util.onSameLineOfThreat(from, relevantKing)) {
-			State moveState = new State(this, from, to);
+		if (Util.onSameLineOfThreat(mv.from, relevantKing)) {
+			State moveState = new State(this, mv);
 			Vector relKingInMove = pieceColor == Main.Color.BLACK ? moveState.blackKing : moveState.whiteKing;
 			
 			// return whether king is threatened as result of move

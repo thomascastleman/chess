@@ -17,21 +17,27 @@ public class ChessGame {
 	public void initGame() {
 		
 		Player[] players = new Player[] {player_white, player_black};
+		Player winner = null;
 		
 		while (true) {
 			
 			for (Player p : players) {
 				
-				this.currentState.log();
+				this.currentState.log();	// show state
 				
+				Move mv = p.getMove(this.currentState);	// solicit move from player
+				this.currentState.makeMove(mv);	// update board
 				
-				
+				if (this.currentState.isWin()) {
+					winner = p;
+					break;
+				}
+			}
+			
+			if (winner != null) {
+				break;
 			}
 		}
-		
-	}
-	
-	public void solicitMove(Player p) {
 		
 	}
 	

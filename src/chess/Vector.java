@@ -10,8 +10,6 @@ public class Vector {
 		this.col = c;
 	}
 	
-	// maybe add a constructor for building off of chess notation?
-	
 	// copy this position
 	public Vector copy() {
 		return new Vector(this.row, this.col);
