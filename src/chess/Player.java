@@ -1,5 +1,7 @@
 package chess;
 
-public abstract class Player {
-
+public interface Player {
+	
+	public Position getMove();
+	
 }

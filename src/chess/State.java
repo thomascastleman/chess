@@ -8,7 +8,24 @@ public class State {
 	public Position blackKing;
 	public Position whiteKing;
 	
-	public State() {
+	// construct state from board
+	public State (char[][] _board) {
+		this.board = Main.boardCopy(_board);	// make copy of board
+		
+		// find king positions
+		for (int r = 0; r < this.board.length; r++) {
+			for (int c = 0; c < this.board[r].length; c++) {
+				char piece = this.board[r][c];
+				if (piece == Main.BLACK_KING) {
+					this.blackKing = new Position(r, c);
+				} else if (piece == Main.WHITE_KING) {
+					this.whiteKing = new Position(r, c);
+				}
+			}
+		}
+	}
+	
+	public State(State prevState, Position from, Position to) {
 		
 	}
 	
@@ -21,8 +38,6 @@ public class State {
 	public boolean moveMeetsCheckConstraint(Position from, Position to) {
 		return true;
 	}
-	
-	
 	
 	public void log() {
 		for (char[] row : this.board) {

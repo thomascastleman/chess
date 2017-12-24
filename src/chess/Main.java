@@ -17,16 +17,38 @@ public class Main {
 	public static final char BLACK_KNIGHT = '\u265e';
 	public static final char BLACK_PAWN = '\u265f';
 	
-	public enum color {BLACK, WHITE};
+	// initial board configuration
+	public static char[][] initialBoard = {
+			{WHITE_ROOK, WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_ROOK},
+			{WHITE_KNIGHT, WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_KNIGHT},
+			{WHITE_BISHOP, WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_BISHOP},
+			{WHITE_QUEEN, WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_QUEEN},
+			{WHITE_KING, WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_KING},
+			{WHITE_BISHOP, WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_BISHOP},
+			{WHITE_KNIGHT, WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_KNIGHT},
+			{WHITE_ROOK, WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_ROOK},
+	};
+	
+	public enum Color {BLACK, WHITE};
 	
 	public static void main(String[] args) {
-		ChessGame g = new ChessGame();
 		
+		Player white = new Human(Color.WHITE);
+		Player black = new Engine(Color.BLACK);
 		
-		g.currentState = new State();
-		g.currentState.board = g.initialBoard;
-		g.currentState.log();
+		ChessGame g = new ChessGame(white, black);
 		
+	}
+	
+	// deep copy a board
+	public static char[][] boardCopy(char[][] board) {
+		char[][] copy = new char[board.length][board.length];
+		for (int r = 0; r < board.length; r++) {
+			for (int c = 0; c < board.length; c++) {
+				copy[r][c] = board[r][c];
+			}
+		}
+		return copy;
 	}
 
 }

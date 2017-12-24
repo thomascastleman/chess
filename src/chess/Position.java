@@ -11,5 +11,5 @@ public class Position {
 	}
 	
 	// maybe add a constructor for building off of chess notation?
-
+	
 }
