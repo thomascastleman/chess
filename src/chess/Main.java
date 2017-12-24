@@ -63,10 +63,10 @@ public class Main {
 	
 	// pawn moves, from left side 
 	public static Position[] pawnMoves = new Position[] {
-			new Position(1, 0),
-			new Position(2, 0),
+			new Position(0, 1),
+			new Position(0, 2),
 			new Position(1, 1),
-			new Position(1, -1)
+			new Position(-1, 1)
 	};
 	
 	public static void main(String[] args) {
@@ -76,15 +76,12 @@ public class Main {
 		
 		ChessGame g = new ChessGame(white, black);
 		g.currentState.log();
-		g.currentState.whiteKing.log();
-		g.currentState.blackKing.log();
 		
-		g.currentState = new State(g.currentState, new Position(4, 0), new Position(4, 3));
 		
-		System.out.println("BREWAK");
+		Position piece = new Position(3, 1);
+		g.currentState = new State(g.currentState, piece, piece.add(pawnMoves[3]));
+		
 		g.currentState.log();
-		g.currentState.whiteKing.log();
-		g.currentState.blackKing.log();
 	}
 
 }

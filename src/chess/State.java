@@ -74,6 +74,7 @@ public class State {
 	}
 	
 	public void log() {
+		System.out.println("");
 		for (char[] row : this.board) {
 			for (char c : row) {
 				if (c == Main.NULL_CHAR) {
