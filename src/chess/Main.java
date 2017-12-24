@@ -33,6 +33,7 @@ public class Main {
 	
 	public enum Color {BLACK, WHITE};
 	
+	// possible axis moves (horizontal / vertical)
 	public static Position[] axisMoves = new Position[] {
 			new Position(0, 1),
 			new Position(1, 0),
@@ -40,11 +41,32 @@ public class Main {
 			new Position(-1, 0),
 	};
 	
+	// possible diagonal moves
 	public static Position[] diagMoves = new Position[] {
 			new Position(1, 1),
 			new Position(1, -1),
 			new Position(-1, -1),
 			new Position(-1, 1),
+	};
+	
+	// possible knight moves
+	public static Position[] knightMoves = new Position[] {
+			new Position(1, 2),
+			new Position(2, 1),
+			new Position(2, -1),
+			new Position(1, -2),
+			new Position(-1, -2),
+			new Position(-2, -1),
+			new Position(-2, 1),
+			new Position(-1, 2),
+	};
+	
+	// pawn moves, from left side 
+	public static Position[] pawnMoves = new Position[] {
+			new Position(1, 0),
+			new Position(2, 0),
+			new Position(1, 1),
+			new Position(1, -1)
 	};
 	
 	public static void main(String[] args) {
