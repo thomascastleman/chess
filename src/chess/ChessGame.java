@@ -16,6 +16,23 @@ public class ChessGame {
 	
 	public void initGame() {
 		
+		Player[] players = new Player[] {player_white, player_black};
+		
+		while (true) {
+			
+			for (Player p : players) {
+				
+				this.currentState.log();
+				
+				
+				
+			}
+		}
+		
+	}
+	
+	public void solicitMove(Player p) {
+		
 	}
 	
 }

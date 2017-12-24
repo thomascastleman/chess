@@ -2,6 +2,8 @@ package chess;
 
 public class Main {
 	
+	public static final int BOARD_DIMENSIONS = 8;
+	
 	// chess piece character encodings
 	public static final char WHITE_KING = '\u2654';
 	public static final char WHITE_QUEEN = '\u2655';
@@ -34,39 +36,39 @@ public class Main {
 	public enum Color {BLACK, WHITE};
 	
 	// possible axis moves (horizontal / vertical)
-	public static Position[] axisMoves = new Position[] {
-			new Position(0, 1),
-			new Position(1, 0),
-			new Position(0, -1),
-			new Position(-1, 0),
+	public static Vector[] axisMoves = new Vector[] {
+			new Vector(0, 1),
+			new Vector(1, 0),
+			new Vector(0, -1),
+			new Vector(-1, 0),
 	};
 	
 	// possible diagonal moves
-	public static Position[] diagMoves = new Position[] {
-			new Position(1, 1),
-			new Position(1, -1),
-			new Position(-1, -1),
-			new Position(-1, 1),
+	public static Vector[] diagMoves = new Vector[] {
+			new Vector(1, 1),
+			new Vector(1, -1),
+			new Vector(-1, -1),
+			new Vector(-1, 1),
 	};
 	
 	// possible knight moves
-	public static Position[] knightMoves = new Position[] {
-			new Position(1, 2),
-			new Position(2, 1),
-			new Position(2, -1),
-			new Position(1, -2),
-			new Position(-1, -2),
-			new Position(-2, -1),
-			new Position(-2, 1),
-			new Position(-1, 2),
+	public static Vector[] knightMoves = new Vector[] {
+			new Vector(1, 2),
+			new Vector(2, 1),
+			new Vector(2, -1),
+			new Vector(1, -2),
+			new Vector(-1, -2),
+			new Vector(-2, -1),
+			new Vector(-2, 1),
+			new Vector(-1, 2),
 	};
 	
 	// pawn moves, from left side 
-	public static Position[] pawnMoves = new Position[] {
-			new Position(0, 1),
-			new Position(0, 2),
-			new Position(1, 1),
-			new Position(-1, 1)
+	public static Vector[] pawnMoves = new Vector[] {
+			new Vector(0, 1),
+			new Vector(0, 2),
+			new Vector(1, 1),
+			new Vector(-1, 1)
 	};
 	
 	public static void main(String[] args) {
@@ -78,8 +80,8 @@ public class Main {
 		g.currentState.log();
 		
 		
-		Position piece = new Position(3, 1);
-		g.currentState = new State(g.currentState, piece, piece.add(pawnMoves[3]));
+		Vector piece = new Vector(3, 6);
+		g.currentState = new State(g.currentState, piece, piece.add(pawnMoves[3].scalarMult(-1)));
 		
 		g.currentState.log();
 	}

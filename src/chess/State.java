@@ -5,8 +5,8 @@ public class State {
 	public char[][] board;
 	
 	// king positions for win checking
-	public Position blackKing;
-	public Position whiteKing;
+	public Vector blackKing;
+	public Vector whiteKing;
 	
 	// construct state from board
 	public State (char[][] _board) {
@@ -17,15 +17,15 @@ public class State {
 			for (int c = 0; c < this.board[r].length; c++) {
 				char piece = this.board[r][c];
 				if (piece == Main.BLACK_KING) {
-					this.blackKing = new Position(r, c);
+					this.blackKing = new Vector(r, c);
 				} else if (piece == Main.WHITE_KING) {
-					this.whiteKing = new Position(r, c);
+					this.whiteKing = new Vector(r, c);
 				}
 			}
 		}
 	}
 	
-	public State(State prevState, Position from, Position to) {
+	public State(State prevState, Vector from, Vector to) {
 		this.board = Util.boardCopy(prevState.board);	// copy previous board
 		
 		char fromPiece = this.board[from.row][from.col];
@@ -52,19 +52,19 @@ public class State {
 	}
 	
 	// determine whether a position is being threatened on this state
-	public boolean isThreatened(Position p) {
+	public boolean isThreatened(Vector p) {
 		return true;
 	}
 	
 	// determine whether a move puts its king in check
-	public boolean moveMeetsCheckConstraint(Position from, Position to) {
+	public boolean moveMeetsCheckConstraint(Vector from, Vector to) {
 		Main.Color pieceColor = Util.getColor(this.board[from.row][from.col]);
-		Position relevantKing = pieceColor == Main.Color.BLACK ? this.blackKing : this.whiteKing;
+		Vector relevantKing = pieceColor == Main.Color.BLACK ? this.blackKing : this.whiteKing;
 		
 		// if previously potentially protecting king
 		if (Util.onSameLineOfThreat(from, relevantKing)) {
 			State moveState = new State(this, from, to);
-			Position relKingInMove = pieceColor == Main.Color.BLACK ? moveState.blackKing : moveState.whiteKing;
+			Vector relKingInMove = pieceColor == Main.Color.BLACK ? moveState.blackKing : moveState.whiteKing;
 			
 			// return whether king is threatened as result of move
 			return moveState.isThreatened(relKingInMove);
@@ -74,8 +74,16 @@ public class State {
 	}
 	
 	public void log() {
+		System.out.print("\n  ");
+		// DEBUG
+		for (int j = 0; j < Main.BOARD_DIMENSIONS; j++) {
+			System.out.print(j + " ");
+		}
 		System.out.println("");
+		
+		int i = 0;
 		for (char[] row : this.board) {
+			System.out.print(i++);
 			for (char c : row) {
 				if (c == Main.NULL_CHAR) {
 					System.out.print("_ ");

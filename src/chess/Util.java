@@ -18,15 +18,15 @@ public class Util {
 	}
 	
 	// check if two positions are on the same line of threat
-	public static boolean onSameLineOfThreat(Position p1, Position p2) {
+	public static boolean onSameLineOfThreat(Vector p1, Vector p2) {
 		return onSameAxis(p1, p2) || onSameDiag(p1, p2);	
 	}
 	
-	public static boolean onSameAxis(Position p1, Position p2) {
+	public static boolean onSameAxis(Vector p1, Vector p2) {
 		return p1.row == p2.row || p1.col == p2.col;
 	}
 	
-	public static boolean onSameDiag(Position p1, Position p2) {
+	public static boolean onSameDiag(Vector p1, Vector p2) {
 		return Math.abs(p1.row - p2.row) == Math.abs(p1.col - p2.col);
 	}
 	

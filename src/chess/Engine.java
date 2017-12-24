@@ -8,9 +8,9 @@ public class Engine implements Player {
 		this.color = _color;
 	}
 	
-	public Position getMove() {
+	public Move getMove() {
 		System.out.println("GET MOVE from Engine");
-		return new Position(0, 0);
+		return new Move();
 	}
 	
 }
