@@ -26,7 +26,29 @@ public class State {
 	}
 	
 	public State(State prevState, Position from, Position to) {
+		this.board = Main.boardCopy(prevState.board);	// copy previous board
 		
+		char fromPiece = this.board[from.row][from.col];
+		char toPiece = this.board[to.row][to.col];
+		
+		// update king positions if necessary
+		if (fromPiece == Main.BLACK_KING) {
+			this.blackKing = to;
+		} else if (fromPiece == Main.WHITE_KING) {
+			this.whiteKing = to;
+		}
+		
+		// copy over king positions
+		if (this.whiteKing == null) {
+			this.whiteKing = prevState.whiteKing.copy();
+		}
+		if (this.blackKing == null) {
+			this.blackKing = prevState.blackKing.copy();
+		}
+		
+		// move piece
+		this.board[to.row][to.col] = this.board[from.row][from.col];
+		this.board[from.row][from.col] = Main.NULL_CHAR;
 	}
 	
 	// determine whether a position is being threatened on this state
@@ -42,7 +64,7 @@ public class State {
 	public void log() {
 		for (char[] row : this.board) {
 			for (char c : row) {
-				if (c == '\u0000') {
+				if (c == Main.NULL_CHAR) {
 					System.out.print("_ ");
 				} else {
 					System.out.print(c + " ");

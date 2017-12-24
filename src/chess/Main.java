@@ -17,6 +17,8 @@ public class Main {
 	public static final char BLACK_KNIGHT = '\u265e';
 	public static final char BLACK_PAWN = '\u265f';
 	
+	public static final char NULL_CHAR = '\u0000';	// for empty positions
+	
 	// initial board configuration
 	public static char[][] initialBoard = {
 			{WHITE_ROOK, WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_ROOK},
@@ -37,7 +39,16 @@ public class Main {
 		Player black = new Engine(Color.BLACK);
 		
 		ChessGame g = new ChessGame(white, black);
+		g.currentState.log();
+		g.currentState.whiteKing.log();
+		g.currentState.blackKing.log();
 		
+		g.currentState = new State(g.currentState, new Position(4, 0), new Position(4, 3));
+		
+		System.out.println("BREWAK");
+		g.currentState.log();
+		g.currentState.whiteKing.log();
+		g.currentState.blackKing.log();
 	}
 	
 	// deep copy a board
