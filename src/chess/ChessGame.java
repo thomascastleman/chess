@@ -39,6 +39,8 @@ public class ChessGame {
 			}
 		}
 		
+		// do something with player name here
+		
 	}
 	
 }

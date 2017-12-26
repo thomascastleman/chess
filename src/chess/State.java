@@ -1,5 +1,7 @@
 package chess;
 
+import chess.Main.Color;
+
 public class State {
 	// char array board representation
 	public char[][] board;
@@ -57,19 +59,72 @@ public class State {
 	}
 	
 	// determine whether a position is being threatened on this state
-	public boolean isThreatened(Vector p) {
+	public boolean isThreatened(Vector position) {
+		
+		System.out.print("Checking for threats at ");
+		position.log();
+		
+		char piece = this.board[position.row][position.col];
+		Color oppositeColor = Util.getColor(piece) == Color.BLACK ? Color.WHITE : Color.BLACK;
+		int side = oppositeColor == Color.BLACK ? 1 : -1;
+		
+		Vector possibleThreat;
+		char threatPiece;
+		
+		// for every pawn attacking move
+		for (Vector delta : Main.pawnAttacks) {
+			possibleThreat = position.add(delta.scalarMult(side));
+			
+			if (possibleThreat.isLegalPosition()) {
+				
+				System.out.print("Possible pawn threat @ ");
+				possibleThreat.log();
+				
+				threatPiece = this.board[possibleThreat.row][possibleThreat.col];
+				
+				if (Util.isPawn(threatPiece) && Util.getColor(threatPiece) == oppositeColor) {
+					System.out.println("THREAT FOUND"); // debug
+					// return true;
+				}
+			}
+		}
+		
+		
+		// for every knight move
+		for (Vector delta : Main.knightMoves) {
+			possibleThreat = position.add(delta);
+			
+			if (possibleThreat.isLegalPosition()) {
+				
+				
+				System.out.print("Possible knight threat @ ");
+				possibleThreat.log();
+				
+				threatPiece = this.board[possibleThreat.row][possibleThreat.col];
+				
+				if (Util.isKnight(threatPiece) && Util.getColor(threatPiece) == oppositeColor) {
+					System.out.println("THREAT FOUND");
+					// return true;
+				}
+			}
+		}
+		
+		
+		
+		
+		
 		return true;
 	}
 	
 	// determine whether a move puts its king in check
 	public boolean moveMeetsCheckConstraint(Move mv) {
-		Main.Color pieceColor = Util.getColor(this.board[mv.from.row][mv.from.col]);
-		Vector relevantKing = pieceColor == Main.Color.BLACK ? this.blackKing : this.whiteKing;
+		Color pieceColor = Util.getColor(this.board[mv.from.row][mv.from.col]);
+		Vector relevantKing = pieceColor == Color.BLACK ? this.blackKing : this.whiteKing;
 		
 		// if previously potentially protecting king
 		if (Util.onSameLineOfThreat(mv.from, relevantKing)) {
 			State moveState = new State(this, mv);
-			Vector relKingInMove = pieceColor == Main.Color.BLACK ? moveState.blackKing : moveState.whiteKing;
+			Vector relKingInMove = pieceColor == Color.BLACK ? moveState.blackKing : moveState.whiteKing;
 			
 			// return whether king is threatened as result of move
 			return moveState.isThreatened(relKingInMove);

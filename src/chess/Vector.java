@@ -25,6 +25,10 @@ public class Vector {
 		return new Vector(this.row * scalar, this.col * scalar);
 	}
 	
+	// determine if vector is legal as a board position
+	public boolean isLegalPosition() {
+		return (this.row > 0 && this.col > 0) && (this.row < Main.BOARD_DIMENSIONS && this.col < Main.BOARD_DIMENSIONS);
+	}
 	
 	
 	// debug
