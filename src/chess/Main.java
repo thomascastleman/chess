@@ -101,7 +101,16 @@ public class Main {
 		
 		g.currentState.log();
 		
-		System.out.println(g.currentState.isThreatened(new Vector(4, 4)));
+		// System.out.println(g.currentState.isThreatened(new Vector(4, 4)));
+		
+		
+		if (
+				(1 == 1) ||
+				(5 == 5) ||
+				(4 == 4)
+		) {
+			System.out.println("TEST");
+		}
 		
 	}
 

@@ -10,6 +10,10 @@ public class Vector {
 		this.col = c;
 	}
 	
+	public Vector() {
+		
+	}
+	
 	// copy this position
 	public Vector copy() {
 		return new Vector(this.row, this.col);

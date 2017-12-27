@@ -1,5 +1,6 @@
 package chess;
 
+import java.util.*;
 import chess.Main.Color;
 
 public class State {
@@ -109,6 +110,67 @@ public class State {
 			}
 		}
 		
+		// handle nmove threats
+		ArrayList<Vector> remainingDeltas = new ArrayList<Vector>();
+		remainingDeltas.addAll(Arrays.asList(Main.axisMoves));
+		remainingDeltas.addAll(Arrays.asList(Main.diagMoves));
+		
+		while (remainingDeltas.size() > 0) {
+			
+			ListIterator<Vector> iter = remainingDeltas.listIterator();
+			while(iter.hasNext()) {
+				Vector delta = iter.next();
+				possibleThreat = position.add(delta);
+				
+				// debug
+				System.out.print("Adding ");
+				delta.log();
+				
+				if (possibleThreat.isLegalPosition()) {
+					
+					threatPiece = this.board[possibleThreat.row][possibleThreat.col];
+					
+					if (threatPiece != Main.NULL_CHAR) {
+						
+						// CHECK KING HERE !!!!!
+						
+						
+						if (Util.isNMove(threatPiece) && Util.getColor(threatPiece) == oppositeColor) {
+							if (
+									(Util.isQueen(threatPiece)) ||
+									(Util.isRook(threatPiece) && Util.onSameAxis(position, possibleThreat)) ||
+									(Util.isBishop(threatPiece) && Util.onSameDiag(position, possibleThreat))
+							) {
+								return true;
+							}
+							
+							
+						}
+						
+						
+						iter.remove();
+						
+					} else {
+						// increment delta to fan out
+						Vector increment = new Vector();
+						if (delta.row != 0) {
+							increment.row = delta.row / Math.abs(delta.row);
+						}
+						if (delta.col != 0) {
+							increment.col = delta.col / Math.abs(delta.col);
+						}
+						delta = delta.add(increment);
+					}
+					
+				} else {
+					// remove from remaining deltas if out of bounds
+					iter.remove();
+				}
+				
+			}
+			
+		}
+		
 		
 		
 		
@@ -127,9 +189,9 @@ public class State {
 			Vector relKingInMove = pieceColor == Color.BLACK ? moveState.blackKing : moveState.whiteKing;
 			
 			// return whether king is threatened as result of move
-			return moveState.isThreatened(relKingInMove);
+			return !moveState.isThreatened(relKingInMove);
 		} else {
-			return false;
+			return true;
 		}
 	}
 	
