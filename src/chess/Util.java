@@ -66,6 +66,10 @@ public class Util {
 		return isQueen(piece) || isRook(piece) || isBishop(piece);
 	}
 	
+	public static boolean isKing(char piece) {
+		return piece == Main.WHITE_KING || piece == Main.BLACK_KING;
+	}
+	
 	
 
 }

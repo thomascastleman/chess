@@ -84,8 +84,8 @@ public class Main {
 		g.currentState.log();
 		
 		
-		Vector piece = new Vector(3, 1);
-		Vector newPos = new Vector(3, 3);
+		Vector piece = new Vector(3, 0);
+		Vector newPos = new Vector(2, 2);
 		Move mv = new Move(piece, newPos);
 		g.currentState.makeMove(mv);
 		
@@ -94,23 +94,24 @@ public class Main {
 		mv = new Move(piece, newPos);
 		g.currentState.makeMove(mv);
 		
-		piece = new Vector(6, 0);
-		newPos = new Vector(6, 5);
+		piece = new Vector(7, 7);
+		newPos = new Vector(7, 4);
+		mv = new Move(piece, newPos);
+		g.currentState.makeMove(mv);
+		
+		piece = new Vector(0, 0);
+		newPos = new Vector(0, 4);
+		mv = new Move(piece, newPos);
+		g.currentState.makeMove(mv);
+		
+		piece = new Vector(5, 1);
+		newPos = new Vector(5, 3);
 		mv = new Move(piece, newPos);
 		g.currentState.makeMove(mv);
 		
 		g.currentState.log();
 		
-		// System.out.println(g.currentState.isThreatened(new Vector(4, 4)));
-		
-		
-		if (
-				(1 == 1) ||
-				(5 == 5) ||
-				(4 == 4)
-		) {
-			System.out.println("TEST");
-		}
+		System.out.println(g.currentState.isThreatened(new Vector(4, 4)));
 		
 	}
 

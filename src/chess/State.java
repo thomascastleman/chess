@@ -78,18 +78,15 @@ public class State {
 			
 			if (possibleThreat.isLegalPosition()) {
 				
-				System.out.print("Possible pawn threat @ ");
-				possibleThreat.log();
-				
 				threatPiece = this.board[possibleThreat.row][possibleThreat.col];
 				
 				if (Util.isPawn(threatPiece) && Util.getColor(threatPiece) == oppositeColor) {
-					System.out.println("THREAT FOUND"); // debug
-					// return true;
+					System.out.print("PAWN THREAT FOUND @ "); // debug
+					possibleThreat.log();
+					return true;
 				}
 			}
 		}
-		
 		
 		// for every knight move
 		for (Vector delta : Main.knightMoves) {
@@ -97,15 +94,12 @@ public class State {
 			
 			if (possibleThreat.isLegalPosition()) {
 				
-				
-				System.out.print("Possible knight threat @ ");
-				possibleThreat.log();
-				
 				threatPiece = this.board[possibleThreat.row][possibleThreat.col];
 				
 				if (Util.isKnight(threatPiece) && Util.getColor(threatPiece) == oppositeColor) {
-					System.out.println("THREAT FOUND");
-					// return true;
+					System.out.print("KNIGHT THREAT FOUND @ ");
+					possibleThreat.log();
+					return true;
 				}
 			}
 		}
@@ -120,11 +114,8 @@ public class State {
 			ListIterator<Vector> iter = remainingDeltas.listIterator();
 			while(iter.hasNext()) {
 				Vector delta = iter.next();
-				possibleThreat = position.add(delta);
 				
-				// debug
-				System.out.print("Adding ");
-				delta.log();
+				possibleThreat = position.add(delta);
 				
 				if (possibleThreat.isLegalPosition()) {
 					
@@ -132,50 +123,51 @@ public class State {
 					
 					if (threatPiece != Main.NULL_CHAR) {
 						
-						// CHECK KING HERE !!!!!
+						if (Util.getColor(threatPiece) == oppositeColor) {
 						
-						
-						if (Util.isNMove(threatPiece) && Util.getColor(threatPiece) == oppositeColor) {
-							if (
-									(Util.isQueen(threatPiece)) ||
-									(Util.isRook(threatPiece) && Util.onSameAxis(position, possibleThreat)) ||
-									(Util.isBishop(threatPiece) && Util.onSameDiag(position, possibleThreat))
-							) {
+							// if directly next to piece & king
+							if (Util.isKing(threatPiece) && (Math.abs(delta.row) == 1 || Math.abs(delta.col) == 1)) {
+								System.out.print("KING THREAT FOUND @ ");
+								possibleThreat.log();
 								return true;
 							}
 							
-							
+							// if nmove
+							if (Util.isNMove(threatPiece)) {
+								if (
+										(Util.isQueen(threatPiece)) ||
+										(Util.isRook(threatPiece) && Util.onSameAxis(position, possibleThreat)) ||
+										(Util.isBishop(threatPiece) && Util.onSameDiag(position, possibleThreat))
+								) {
+									System.out.print("NMOVE THREAT AT ");
+									possibleThreat.log();
+									return true;
+								}
+							}
 						}
 						
-						
+						// remove since piece hit
 						iter.remove();
 						
 					} else {
 						// increment delta to fan out
-						Vector increment = new Vector();
+						Vector increment = new Vector(0, 0);
 						if (delta.row != 0) {
 							increment.row = delta.row / Math.abs(delta.row);
 						}
 						if (delta.col != 0) {
 							increment.col = delta.col / Math.abs(delta.col);
 						}
-						delta = delta.add(increment);
+						delta.addVector(increment);
 					}
 					
 				} else {
 					// remove from remaining deltas if out of bounds
 					iter.remove();
 				}
-				
 			}
-			
 		}
-		
-		
-		
-		
-		
-		return true;
+		return false;
 	}
 	
 	// determine whether a move puts its king in check
