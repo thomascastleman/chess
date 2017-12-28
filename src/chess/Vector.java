@@ -26,6 +26,18 @@ public class Vector {
 		this.col += delta.col;
 	}
 	
+	public void increment() {
+		// increment delta to fan out
+		Vector increment = new Vector(0, 0);
+		if (this.row != 0) {
+			increment.row = this.row / Math.abs(this.row);
+		}
+		if (this.col != 0) {
+			increment.col = this.col / Math.abs(this.col);
+		}
+		this.addVector(increment);
+	}
+	
 	// multiply by scalar
 	public Vector scalarMult(int scalar) {
 		return new Vector(this.row * scalar, this.col * scalar);

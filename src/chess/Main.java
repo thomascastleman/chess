@@ -84,24 +84,7 @@ public class Main {
 		Player black = new Engine(Color.BLACK);
 		ChessGame g = new ChessGame(white, black);
 		
-		g.currentState.log();
-		
-		
-		Vector f = new Vector(6, 7), t = new Vector(5, 2);
-		Move move = new Move(f, t);
-		g.currentState.makeMove(move);
-		g.currentState.log();
-
-		
-		Vector position = new Vector(5, 2);
-		ArrayList<Move> mv = g.currentState.getAllPossibleMoves(position);
-		
-		System.out.print(mv.size() + " moves from ");
-		position.log();
-		for (Move m : mv) {
-			m.to.log();
-		}
-		
+		g.currentState.log();				
 	}
 
 }

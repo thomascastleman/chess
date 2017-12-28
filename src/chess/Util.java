@@ -17,6 +17,14 @@ public class Util {
 		return copy;
 	}
 	
+	public static Vector[] vectorArrayCopy(Vector[] a) {
+		Vector[] copy = new Vector[a.length];
+		for (int i = 0; i < copy.length; i++) {
+			copy[i] = a[i].copy();
+		}
+		return copy;
+	}
+	
 	// check if two positions are on the same line of threat
 	public static boolean onSameLineOfThreat(Vector p1, Vector p2) {
 		return onSameAxis(p1, p2) || onSameDiag(p1, p2);	

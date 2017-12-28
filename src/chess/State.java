@@ -72,12 +72,14 @@ public class State {
 		ArrayList<Move> moves = new ArrayList<Move>();
 		Color oppositeColor = Util.getColor(piece) == Color.BLACK ? Color.WHITE : Color.BLACK;
 		int side = oppositeColor == Color.BLACK ? 1 : -1;
+		
+		Vector movePosition;
 		Move mv;
 		
 		if (Util.isPawn(piece)) {
 			// for every pawn move
 			for (Vector delta : Main.pawnMoves) {
-				Vector movePosition = position.add(delta.scalarMult(side));
+				movePosition = position.add(delta.scalarMult(side));
 				
 				if (movePosition.isLegalPosition()) {
 					
@@ -130,7 +132,7 @@ public class State {
 		} else if (Util.isKnight(piece)) {
 			// for every knight move
 			for (Vector delta : Main.knightMoves) {
-				Vector movePosition = position.add(delta);
+				movePosition = position.add(delta);
 				// if legal position
 				if (movePosition.isLegalPosition()) {
 					char movePiece = this.pieceAt(movePosition);
@@ -146,8 +148,42 @@ public class State {
 			
 		} else if (Util.isNMove(piece) || Util.isKing(piece)) {
 			
+			ArrayList<Vector> possibleDeltas = new ArrayList<Vector>();
+			if (Util.isRook(piece) || Util.isQueen(piece) || Util.isKing(piece)) {
+				possibleDeltas.addAll(Arrays.asList(Util.vectorArrayCopy(Main.axisMoves)));
+			}
+			if (Util.isBishop(piece) || Util.isQueen(piece) || Util.isKing(piece)) {
+				possibleDeltas.addAll(Arrays.asList(Util.vectorArrayCopy(Main.diagMoves)));
+			}
 			
-			
+			while (possibleDeltas.size() > 0) {
+				
+				ListIterator<Vector> iter = possibleDeltas.listIterator();
+				while (iter.hasNext()) {
+					Vector delta = iter.next();
+					movePosition = position.add(delta);
+					mv = new Move(position, movePosition);
+					
+					if (
+							movePosition.isLegalPosition() && 
+							(this.pieceAt(movePosition) == Main.NULL_CHAR || Util.getColor(this.pieceAt(movePosition)) == oppositeColor) && 
+							this.moveMeetsCheckConstraint(mv)
+						) {
+						
+						moves.add(mv);	// accept move
+						
+						//  if more room to search and piece able to move further (not king)
+						if (this.pieceAt(movePosition) == Main.NULL_CHAR && !Util.isKing(piece)) {
+							delta.increment();
+						} else {
+							iter.remove();
+						}
+					
+					} else {
+						iter.remove();
+					}
+				}
+			}
 		}
 		
 		return moves;
@@ -162,10 +198,6 @@ public class State {
 		
 		Vector possibleThreat;
 		char threatPiece;
-		
-		// debug
-		System.out.print("Checking for threats @ ");
-		position.log();
 		
 		// for every pawn attacking move
 		for (Vector delta : Main.pawnAttacks) {
@@ -201,8 +233,8 @@ public class State {
 		
 		// handle nmove threats
 		ArrayList<Vector> remainingDeltas = new ArrayList<Vector>();
-		remainingDeltas.addAll(Arrays.asList(Main.axisMoves));
-		remainingDeltas.addAll(Arrays.asList(Main.diagMoves));
+		remainingDeltas.addAll(Arrays.asList(Util.vectorArrayCopy(Main.axisMoves)));
+		remainingDeltas.addAll(Arrays.asList(Util.vectorArrayCopy(Main.diagMoves)));
 		
 		while (remainingDeltas.size() > 0) {
 			
@@ -245,15 +277,7 @@ public class State {
 						iter.remove();
 						
 					} else {
-						// increment delta to fan out
-						Vector increment = new Vector(0, 0);
-						if (delta.row != 0) {
-							increment.row = delta.row / Math.abs(delta.row);
-						}
-						if (delta.col != 0) {
-							increment.col = delta.col / Math.abs(delta.col);
-						}
-						delta.addVector(increment);
+						delta.increment();
 					}
 					
 				} else {
