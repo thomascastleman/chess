@@ -78,18 +78,31 @@ public class Main {
 	public static void main(String[] args) {
 		
 		Player white = new Human(Color.WHITE);
-		Player black = new Engine(Color.BLACK);
+		Player black = new Human(Color.BLACK);
 		ChessGame g = new ChessGame(white, black);
 		
-		g.currentState.board[4][6] = NULL_CHAR;
-		g.currentState.board[4][3] = WHITE_QUEEN;
-		g.currentState.board[4][6] = BLACK_KING;
-		g.currentState.board[4][7] = NULL_CHAR;
-		g.currentState.currentTurnColor = Color.BLACK;
-		System.out.println(g.currentState.getAllPossibleMoves(new Vector(4, 7)).size());
-		System.out.println(g.currentState.isWin());
+//		g.currentState.board[4][6] = NULL_CHAR;
+//		g.currentState.board[4][3] = WHITE_QUEEN;
+//		g.currentState.board[4][6] = BLACK_KING;
+//		g.currentState.board[4][7] = NULL_CHAR;
+//		g.currentState.currentTurnColor = Color.BLACK;
+//		System.out.println(g.currentState.getAllPossibleMoves(new Vector(4, 7)).size());
+//		System.out.println(g.currentState.isWin());
 		
-		g.currentState.log();				
+//		g.currentState.log();
+//		
+//		Move mv = g.player_white.getMove(g.currentState);
+//		System.out.print("MAKING MOVE ");
+//		mv.log();
+//		
+//		g.currentState.makeMove(mv);
+//		
+//		g.currentState.log();
+		
+		
+		g.initGame();
+		
+		
 	}
 
 }

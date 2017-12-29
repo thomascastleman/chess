@@ -1,16 +1,58 @@
 package chess;
 
+import java.util.*;
+
 public class Human implements Player {
 	
 	public Main.Color color;
+	public static Scanner input = new Scanner(System.in);
 	
 	public Human(Main.Color _color) {
 		this.color = _color;
 	}
 	
 	public Move getMove(State s) {
-		System.out.println("GET MOVE from Human");
-		return new Move();
+		String inp = null;
+		
+		// loop until acceptable move entered
+		while (true) {
+		
+			System.out.print("Enter move: ");
+			
+			if (input.hasNextLine()) {
+				// read input
+				inp = input.nextLine();
+				inp = inp.toLowerCase();
+				
+				// if input is correct format
+				if (inp.matches("[a-z]\\d\\s[a-z]\\d")) {
+					String[] split = inp.split(" ");	// split input
+					
+					// extract move vector values
+					Vector from = new Vector(Util.notationLetters.indexOf(split[0].charAt(0)), (split[0].charAt(1) - '0') - 1);
+					Vector to = new Vector(Util.notationLetters.indexOf(split[1].charAt(0)), (split[1].charAt(1) - '0') - 1);
+					
+					from.log();	// debug
+					to.log();
+					
+					// ensure legal board positions
+					if (from.isLegalPosition() && to.isLegalPosition()) {
+						
+						// if actual piece exists to move
+						if (s.pieceAt(from) != Main.NULL_CHAR) {
+							
+							ArrayList<Move> possibleMoves = s.getAllPossibleMoves(from);
+							for (Move m : possibleMoves) {
+								if (m.from.vectorEquals(from) && m.to.vectorEquals(to)) {
+									return new Move(from, to);
+								}
+							}
+						}					
+					}
+				}
+			}
+		}
+	
 	}
 
 }

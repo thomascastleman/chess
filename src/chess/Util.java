@@ -5,6 +5,7 @@ import chess.Main.Color;
 // handles all global utility functions
 public class Util {
 	
+	public static String notationLetters = "abcdefgh";	// letters in algebraic chess notation
 	
 	// deep copy a board
 	public static char[][] boardCopy(char[][] board) {

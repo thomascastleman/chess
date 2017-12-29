@@ -15,14 +15,11 @@ public class ChessGame {
 	}
 	
 	public void initGame() {
-		
 		Player[] players = new Player[] {player_white, player_black};
 		Player winner = null;
 		
 		while (true) {
-			
 			for (Player p : players) {
-				
 				this.currentState.log();	// show state
 				
 				Move mv = p.getMove(this.currentState);	// solicit move from player

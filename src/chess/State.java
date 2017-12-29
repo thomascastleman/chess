@@ -77,8 +77,6 @@ public class State {
 		} else {
 			return false;
 		}
-		
-		
 	}
 
 	// get all available legal moves for a given position in this state
@@ -325,14 +323,14 @@ public class State {
 	public void log() {
 		System.out.print("\n  ");
 		// DEBUG
-		for (int j = 0; j < Main.BOARD_DIMENSIONS; j++) {
+		for (int j = 1; j < Main.BOARD_DIMENSIONS + 1; j++) {
 			System.out.print(j + " ");
 		}
 		System.out.println("");
 		
 		int i = 0;
 		for (char[] row : this.board) {
-			System.out.print(i++);
+			System.out.print(Util.notationLetters.charAt(i++) + " ");
 			for (char c : row) {
 				if (c == Main.NULL_CHAR) {
 					System.out.print("_ ");

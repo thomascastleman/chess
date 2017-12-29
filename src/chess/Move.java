@@ -18,5 +18,9 @@ public class Move {
 	public Move copy() {
 		return new Move(from.copy(), to.copy());
 	}
+	
+	public void log() {
+		System.out.println("(" + this.from.row + ", " + this.from.col + ") to (" + this.to.row + ", " + this.to.col + ")");
+	}
 
 }

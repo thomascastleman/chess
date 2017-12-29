@@ -10,6 +10,10 @@ public class Vector {
 		this.col = c;
 	}
 	
+	public boolean vectorEquals(Vector v) {
+		return this.row == v.row && this.col == v.col;
+	}
+	
 	// copy this position
 	public Vector copy() {
 		return new Vector(this.row, this.col);
