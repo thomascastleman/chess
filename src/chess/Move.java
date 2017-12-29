@@ -14,5 +14,9 @@ public class Move {
 	public Move() {
 		
 	}
+	
+	public Move copy() {
+		return new Move(from.copy(), to.copy());
+	}
 
 }

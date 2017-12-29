@@ -28,6 +28,7 @@ public class State {
 		}
 	}
 
+	// construct state from a previous state with a move being made
 	public State(State prevState, Move mv) {
 		this.board = Util.boardCopy(prevState.board);	// copy previous board
 		this.whiteKing = prevState.whiteKing.copy();	// copy previous king positions
@@ -36,11 +37,15 @@ public class State {
 		this.makeMove(mv);
 	}
 	
+	// get the piece at a given position on this board
+	public char pieceAt(Vector pos) {
+		return this.board[pos.row][pos.col];
+	}
+	
 	// alter this state to reflect a move
 	public void makeMove(Move mv) {
-		Vector from = mv.from, to = mv.to;
-		
-		char fromPiece = this.board[from.row][from.col];
+		Vector from = mv.from, to = mv.to;	// get to and from positions
+		char fromPiece = this.board[from.row][from.col];	// get piece to move
 		
 		// update king positions if necessary
 		if (fromPiece == Main.BLACK_KING) {
@@ -56,15 +61,18 @@ public class State {
 	
 	// check if state is a win state
 	public boolean isWin() {
+		// fill this out
 		return true;
 	}
-	
+
+	// get all available legal moves for a given position in this state
 	public ArrayList<Move> getAllPossibleMoves(Vector position) {
 		
-		char piece = this.board[position.row][position.col];
+		char piece = this.pieceAt(position);
 		ArrayList<Move> moves = new ArrayList<Move>();
 		Color oppositeColor = Util.getColor(piece) == Color.BLACK ? Color.WHITE : Color.BLACK;
 		int side = oppositeColor == Color.BLACK ? 1 : -1;
+		Move mv;
 		
 		if (Util.isPawn(piece)) {
 			// for every pawn move
@@ -73,13 +81,19 @@ public class State {
 				
 				if (movePosition.isLegalPosition()) {
 					
-					char movePiece = this.board[movePosition.row][movePosition.col];
+					char movePiece = this.pieceAt(movePosition);
 					
 					// if horizontal move
 					if (delta.row == 0) {
 						// if one forward and space empty
 						if (Math.abs(delta.col) == 1 && movePiece == Main.NULL_CHAR) {
-							moves.add(new Move(position, movePosition));
+							mv = new Move(position, movePosition);
+							
+							// finally if move does not lead to check
+							if (this.moveMeetsCheckConstraint(mv)) {
+								moves.add(mv);
+							}
+							
 						// if two forward and first move
 						} else if (Math.abs(delta.col) == 2 && (position.col == 1 || position.col == 6)) {
 							Vector forward = new Vector(0, 1);
@@ -91,23 +105,44 @@ public class State {
 									movePiece == Main.NULL_CHAR &&
 									this.board[oneAhead.row][oneAhead.col] == Main.NULL_CHAR
 								) {
-								moves.add(new Move(position, movePosition));
+								
+								mv = new Move(position, movePosition);
+								if (this.moveMeetsCheckConstraint(mv)) {	// check check constraint
+									moves.add(mv);
+								}
 							}
 						}
 
 					// if diagonal move
 					} else {
 						// if attacking, allow move
-						if (Util.getColor(this.board[movePosition.row][movePosition.col]) == oppositeColor) {
-							moves.add(new Move(position, movePosition));
+						if (Util.getColor(this.pieceAt(movePosition)) == oppositeColor) {
+							mv = new Move(position, movePosition);
+							
+							if (this.moveMeetsCheckConstraint(mv)) {
+								moves.add(mv);
+							}
 						}
 					}
 				}
 			}
 			
 		} else if (Util.isKnight(piece)) {
-			
-			
+			// for every knight move
+			for (Vector delta : Main.knightMoves) {
+				Vector movePosition = position.add(delta);
+				// if legal position
+				if (movePosition.isLegalPosition()) {
+					char movePiece = this.pieceAt(movePosition);
+					// if space empty or opposite color
+					if (movePiece == Main.NULL_CHAR || Util.getColor(movePiece) == oppositeColor) {
+						mv = new Move(position, movePosition);
+						if (this.moveMeetsCheckConstraint(mv)) {	// check check constraint
+							moves.add(mv);
+						}
+					}
+				}
+			}
 			
 		} else if (Util.isNMove(piece) || Util.isKing(piece)) {
 			
@@ -121,15 +156,16 @@ public class State {
 	// determine whether a position is being threatened on this state
 	public boolean isThreatened(Vector position) {
 		
-		System.out.print("Checking for threats at ");
-		position.log();
-		
 		char piece = this.board[position.row][position.col];
 		Color oppositeColor = Util.getColor(piece) == Color.BLACK ? Color.WHITE : Color.BLACK;
 		int side = oppositeColor == Color.BLACK ? 1 : -1;
 		
 		Vector possibleThreat;
 		char threatPiece;
+		
+		// debug
+		System.out.print("Checking for threats @ ");
+		position.log();
 		
 		// for every pawn attacking move
 		for (Vector delta : Main.pawnAttacks) {
