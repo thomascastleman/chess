@@ -1,5 +1,7 @@
 package chess;
 
+import java.util.*;
+
 public class Main {
 	
 	public static final int BOARD_DIMENSIONS = 8;
@@ -82,36 +84,16 @@ public class Main {
 		Player black = new Engine(Color.BLACK);
 		ChessGame g = new ChessGame(white, black);
 		g.currentState.log();
+
 		
+		Vector position = new Vector(4, 1);
+		ArrayList<Move> mv = g.currentState.getAllPossibleMoves(position);
 		
-		Vector piece = new Vector(3, 0);
-		Vector newPos = new Vector(2, 2);
-		Move mv = new Move(piece, newPos);
-		g.currentState.makeMove(mv);
-		
-		piece = new Vector(4, 6);
-		newPos = new Vector(4, 4);
-		mv = new Move(piece, newPos);
-		g.currentState.makeMove(mv);
-		
-		piece = new Vector(7, 7);
-		newPos = new Vector(7, 4);
-		mv = new Move(piece, newPos);
-		g.currentState.makeMove(mv);
-		
-		piece = new Vector(0, 0);
-		newPos = new Vector(0, 4);
-		mv = new Move(piece, newPos);
-		g.currentState.makeMove(mv);
-		
-		piece = new Vector(5, 1);
-		newPos = new Vector(5, 3);
-		mv = new Move(piece, newPos);
-		g.currentState.makeMove(mv);
-		
-		g.currentState.log();
-		
-		System.out.println(g.currentState.isThreatened(new Vector(4, 4)));
+		System.out.print(mv.size() + " moves from ");
+		position.log();
+		for (Move m : mv) {
+			m.to.log();
+		}
 		
 	}
 

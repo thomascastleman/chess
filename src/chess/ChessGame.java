@@ -38,9 +38,6 @@ public class ChessGame {
 				break;
 			}
 		}
-		
-		// do something with player name here
-		
 	}
 	
 }

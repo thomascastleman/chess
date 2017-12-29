@@ -32,7 +32,9 @@ public class Util {
 	
 	// get color type of piece
 	public static Color getColor(char piece) {
-		if (piece == Main.BLACK_KING || piece == Main.BLACK_QUEEN || piece == Main.BLACK_ROOK || piece == Main.BLACK_BISHOP || piece == Main.BLACK_KNIGHT || piece == Main.BLACK_PAWN) {
+		if (piece == Main.NULL_CHAR) {
+			return null;
+		} else if (piece == Main.BLACK_KING || piece == Main.BLACK_QUEEN || piece == Main.BLACK_ROOK || piece == Main.BLACK_BISHOP || piece == Main.BLACK_KNIGHT || piece == Main.BLACK_PAWN) {
 			return Color.BLACK;
 		} else {
 			return Color.WHITE;

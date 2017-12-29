@@ -41,7 +41,6 @@ public class State {
 		Vector from = mv.from, to = mv.to;
 		
 		char fromPiece = this.board[from.row][from.col];
-		char toPiece = this.board[to.row][to.col];
 		
 		// update king positions if necessary
 		if (fromPiece == Main.BLACK_KING) {
@@ -51,12 +50,72 @@ public class State {
 		}
 		
 		// move piece
-		this.board[to.row][to.col] = fromPiece;
 		this.board[from.row][from.col] = Main.NULL_CHAR;
+		this.board[to.row][to.col] = fromPiece;
 	}
 	
+	// check if state is a win state
 	public boolean isWin() {
 		return true;
+	}
+	
+	public ArrayList<Move> getAllPossibleMoves(Vector position) {
+		
+		char piece = this.board[position.row][position.col];
+		ArrayList<Move> moves = new ArrayList<Move>();
+		Color oppositeColor = Util.getColor(piece) == Color.BLACK ? Color.WHITE : Color.BLACK;
+		int side = oppositeColor == Color.BLACK ? 1 : -1;
+		
+		if (Util.isPawn(piece)) {
+			// for every pawn move
+			for (Vector delta : Main.pawnMoves) {
+				Vector movePosition = position.add(delta.scalarMult(side));
+				
+				if (movePosition.isLegalPosition()) {
+					
+					char movePiece = this.board[movePosition.row][movePosition.col];
+					
+					// if horizontal move
+					if (delta.row == 0) {
+						// if one forward and space empty
+						if (Math.abs(delta.col) == 1 && movePiece == Main.NULL_CHAR) {
+							moves.add(new Move(position, movePosition));
+						// if two forward and first move
+						} else if (Math.abs(delta.col) == 2 && (position.col == 1 || position.col == 6)) {
+							Vector forward = new Vector(0, 1);
+							forward = forward.scalarMult(side);
+							Vector oneAhead = position.add(forward);
+							
+							// if both space directly in front and two ahead are free
+							if (
+									movePiece == Main.NULL_CHAR &&
+									this.board[oneAhead.row][oneAhead.col] == Main.NULL_CHAR
+								) {
+								moves.add(new Move(position, movePosition));
+							}
+						}
+
+					// if diagonal move
+					} else {
+						// if attacking, allow move
+						if (Util.getColor(this.board[movePosition.row][movePosition.col]) == oppositeColor) {
+							moves.add(new Move(position, movePosition));
+						}
+					}
+				}
+			}
+			
+		} else if (Util.isKnight(piece)) {
+			
+			
+			
+		} else if (Util.isNMove(piece) || Util.isKing(piece)) {
+			
+			
+			
+		}
+		
+		return moves;
 	}
 	
 	// determine whether a position is being threatened on this state
@@ -208,6 +267,5 @@ public class State {
 			System.out.println("");
 		}	
 	}
-	
-	
+
 }
