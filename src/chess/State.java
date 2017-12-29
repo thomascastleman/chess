@@ -4,13 +4,16 @@ import java.util.*;
 import chess.Main.Color;
 
 public class State {
+
 	// char array board representation
 	public char[][] board;
-	
+
 	// king positions for win checking
 	public Vector blackKing;
 	public Vector whiteKing;
-	
+
+	public Color currentTurnColor = Color.WHITE;	// color of player whose move it is
+
 	// construct state from board
 	public State (char[][] _board) {
 		this.board = Util.boardCopy(_board);	// make copy of board
@@ -33,15 +36,16 @@ public class State {
 		this.board = Util.boardCopy(prevState.board);	// copy previous board
 		this.whiteKing = prevState.whiteKing.copy();	// copy previous king positions
 		this.blackKing = prevState.blackKing.copy();
+		this.currentTurnColor = Util.oppositeColor(prevState.currentTurnColor);
 		
 		this.makeMove(mv);
 	}
-	
+
 	// get the piece at a given position on this board
 	public char pieceAt(Vector pos) {
 		return this.board[pos.row][pos.col];
 	}
-	
+
 	// alter this state to reflect a move
 	public void makeMove(Move mv) {
 		Vector from = mv.from, to = mv.to;	// get to and from positions
@@ -58,11 +62,23 @@ public class State {
 		this.board[from.row][from.col] = Main.NULL_CHAR;
 		this.board[to.row][to.col] = fromPiece;
 	}
-	
+
 	// check if state is a win state
 	public boolean isWin() {
-		// fill this out
-		return true;
+		Vector relevantKing;
+		if (this.currentTurnColor == Color.BLACK) {
+			relevantKing = this.blackKing;
+		} else {
+			relevantKing = this.whiteKing;
+		}
+		
+		if (this.isThreatened(relevantKing)) {
+			return this.getAllPossibleMoves(relevantKing).size() == 0;
+		} else {
+			return false;
+		}
+		
+		
 	}
 
 	// get all available legal moves for a given position in this state
@@ -70,7 +86,7 @@ public class State {
 		
 		char piece = this.pieceAt(position);
 		ArrayList<Move> moves = new ArrayList<Move>();
-		Color oppositeColor = Util.getColor(piece) == Color.BLACK ? Color.WHITE : Color.BLACK;
+		Color oppositeColor = Util.oppositeColor(Util.getColor(piece));
 		int side = oppositeColor == Color.BLACK ? 1 : -1;
 		
 		Vector movePosition;
@@ -188,12 +204,12 @@ public class State {
 		
 		return moves;
 	}
-	
+
 	// determine whether a position is being threatened on this state
 	public boolean isThreatened(Vector position) {
 		
 		char piece = this.board[position.row][position.col];
-		Color oppositeColor = Util.getColor(piece) == Color.BLACK ? Color.WHITE : Color.BLACK;
+		Color oppositeColor = Util.oppositeColor(Util.getColor(piece));
 		int side = oppositeColor == Color.BLACK ? 1 : -1;
 		
 		Vector possibleThreat;
@@ -288,7 +304,7 @@ public class State {
 		}
 		return false;
 	}
-	
+
 	// determine whether a move puts its king in check
 	public boolean moveMeetsCheckConstraint(Move mv) {
 		Color pieceColor = Util.getColor(this.board[mv.from.row][mv.from.col]);
@@ -305,7 +321,7 @@ public class State {
 			return true;
 		}
 	}
-	
+
 	public void log() {
 		System.out.print("\n  ");
 		// DEBUG

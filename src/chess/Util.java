@@ -49,6 +49,13 @@ public class Util {
 		}
 	}
 	
+	public static Color oppositeColor(Color col) {
+		if (col == null) {
+			return null;
+		} else {
+			return col == Color.BLACK ? Color.WHITE : Color.BLACK;
+		}
+	}
 	
 	// PIECE CHECKING FUNCTIONS:
 	

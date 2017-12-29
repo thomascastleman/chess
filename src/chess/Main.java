@@ -1,9 +1,8 @@
 package chess;
 
-import java.util.*;
-
 public class Main {
 	
+	public static enum Color {BLACK, WHITE};
 	public static final int BOARD_DIMENSIONS = 8;
 	
 	// chess piece character encodings
@@ -34,8 +33,6 @@ public class Main {
 			{WHITE_KNIGHT, WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_KNIGHT},
 			{WHITE_ROOK, WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_ROOK},
 	};
-	
-	public static enum Color {BLACK, WHITE};
 	
 	// possible axis moves (horizontal / vertical)
 	public static Vector[] axisMoves = new Vector[] {
@@ -84,16 +81,15 @@ public class Main {
 		Player black = new Engine(Color.BLACK);
 		ChessGame g = new ChessGame(white, black);
 		
+		g.currentState.board[4][6] = NULL_CHAR;
+		g.currentState.board[4][3] = WHITE_QUEEN;
+		g.currentState.board[4][6] = BLACK_KING;
+		g.currentState.board[4][7] = NULL_CHAR;
+		g.currentState.currentTurnColor = Color.BLACK;
+		System.out.println(g.currentState.getAllPossibleMoves(new Vector(4, 7)).size());
+		System.out.println(g.currentState.isWin());
+		
 		g.currentState.log();				
 	}
 
 }
-
-
-
-
-
-
-
-
-
