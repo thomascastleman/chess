@@ -81,24 +81,26 @@ public class Main {
 		Player black = new Human(Color.BLACK);
 		ChessGame g = new ChessGame(white, black);
 		
-//		g.currentState.board[4][6] = NULL_CHAR;
-//		g.currentState.board[4][3] = WHITE_QUEEN;
-//		g.currentState.board[4][6] = BLACK_KING;
-//		g.currentState.board[4][7] = NULL_CHAR;
-//		g.currentState.currentTurnColor = Color.BLACK;
-//		System.out.println(g.currentState.getAllPossibleMoves(new Vector(4, 7)).size());
-//		System.out.println(g.currentState.isWin());
 		
-//		g.currentState.log();
-//		
-//		Move mv = g.player_white.getMove(g.currentState);
-//		System.out.print("MAKING MOVE ");
-//		mv.log();
-//		
-//		g.currentState.makeMove(mv);
-//		
-//		g.currentState.log();
 		
+		char[][] testBoard = new char[8][8];
+		
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				testBoard[i][j] = NULL_CHAR;
+			}
+		}
+		
+		testBoard[1][0] = WHITE_KING;
+		testBoard[1][7] = BLACK_KING;
+		
+		
+		testBoard[3][1] = BLACK_PAWN;
+		testBoard[5][5] = WHITE_PAWN;
+		testBoard[0][7] = BLACK_QUEEN;
+		
+		g.currentState = new State(testBoard);
+	
 		
 		g.initGame();
 		

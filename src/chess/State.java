@@ -13,6 +13,8 @@ public class State {
 	public Vector whiteKing;
 
 	public Color currentTurnColor = Color.WHITE;	// color of player whose move it is
+	
+	public Move moveFromPrevious;	// move that resulted in this state
 
 	// construct state from board
 	public State (char[][] _board) {
@@ -48,6 +50,7 @@ public class State {
 
 	// alter this state to reflect a move
 	public void makeMove(Move mv) {
+		this.moveFromPrevious = mv;	// update move from previous
 		Vector from = mv.from, to = mv.to;	// get to and from positions
 		char fromPiece = this.board[from.row][from.col];	// get piece to move
 		
@@ -60,7 +63,13 @@ public class State {
 		
 		// move piece
 		this.board[from.row][from.col] = Main.NULL_CHAR;
-		this.board[to.row][to.col] = fromPiece;
+		
+		// pawn promotion
+		if (Util.isPawn(fromPiece) && (to.col == 0 || to.col == Main.BOARD_DIMENSIONS - 1)) {
+			this.board[to.row][to.col] = Util.getColor(fromPiece) == Color.BLACK ? Main.BLACK_QUEEN : Main.WHITE_QUEEN;
+		} else {
+			this.board[to.row][to.col] = fromPiece;
+		}
 	}
 
 	// check if state is a win state
@@ -336,6 +345,7 @@ public class State {
 					System.out.print("_ ");
 				} else {
 					System.out.print(c + " ");
+					
 				}
 			}
 			System.out.println("");

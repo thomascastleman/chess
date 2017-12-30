@@ -32,9 +32,6 @@ public class Human implements Player {
 					Vector from = new Vector(Util.notationLetters.indexOf(split[0].charAt(0)), (split[0].charAt(1) - '0') - 1);
 					Vector to = new Vector(Util.notationLetters.indexOf(split[1].charAt(0)), (split[1].charAt(1) - '0') - 1);
 					
-					from.log();	// debug
-					to.log();
-					
 					// ensure legal board positions
 					if (from.isLegalPosition() && to.isLegalPosition()) {
 						
