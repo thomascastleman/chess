@@ -1,5 +1,7 @@
 package chess;
 
+import java.util.*;
+
 public class Main {
 	
 	public static enum Color {BLACK, WHITE};
@@ -82,9 +84,7 @@ public class Main {
 		ChessGame g = new ChessGame(white, black);
 		
 		
-		
 		char[][] testBoard = new char[8][8];
-		
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				testBoard[i][j] = NULL_CHAR;
@@ -92,17 +92,22 @@ public class Main {
 		}
 		
 		testBoard[1][0] = WHITE_KING;
-		testBoard[1][7] = BLACK_KING;
+		testBoard[4][7] = BLACK_KING;
 		
-		
-		testBoard[3][1] = BLACK_PAWN;
-		testBoard[5][5] = WHITE_PAWN;
-		testBoard[0][7] = BLACK_QUEEN;
+		testBoard[6][1] = WHITE_BISHOP;
 		
 		g.currentState = new State(testBoard);
-	
 		
-		g.initGame();
+		g.currentState.log();
+		
+		ArrayList<State> s = g.currentState.getSuccessors();
+		
+		System.out.println(s.size() + " states");
+		for (State st : s) {
+			System.out.println(st.moveFromPrevious.getNotationString());
+		}
+		
+		
 		
 		
 	}

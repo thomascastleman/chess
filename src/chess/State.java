@@ -15,6 +15,9 @@ public class State {
 	public Color currentTurnColor = Color.WHITE;	// color of player whose move it is
 	
 	public Move moveFromPrevious;	// move that resulted in this state
+	
+	public float value;	// evaluated value of this state
+	public int depth;	// relative depth at which this state was found
 
 	// construct state from board
 	public State (char[][] _board) {
@@ -231,8 +234,6 @@ public class State {
 				threatPiece = this.board[possibleThreat.row][possibleThreat.col];
 				
 				if (Util.isPawn(threatPiece) && Util.getColor(threatPiece) == oppositeColor) {
-					System.out.print("PAWN THREAT FOUND @ "); // debug
-					possibleThreat.log();
 					return true;
 				}
 			}
@@ -247,8 +248,6 @@ public class State {
 				threatPiece = this.board[possibleThreat.row][possibleThreat.col];
 				
 				if (Util.isKnight(threatPiece) && Util.getColor(threatPiece) == oppositeColor) {
-					System.out.print("KNIGHT THREAT FOUND @ ");
-					possibleThreat.log();
 					return true;
 				}
 			}
@@ -277,8 +276,6 @@ public class State {
 						
 							// if directly next to piece & king
 							if (Util.isKing(threatPiece) && (Math.abs(delta.row) == 1 || Math.abs(delta.col) == 1)) {
-								System.out.print("KING THREAT FOUND @ ");
-								possibleThreat.log();
 								return true;
 							}
 							
@@ -289,20 +286,15 @@ public class State {
 										(Util.isRook(threatPiece) && Util.onSameAxis(position, possibleThreat)) ||
 										(Util.isBishop(threatPiece) && Util.onSameDiag(position, possibleThreat))
 								) {
-									System.out.print("NMOVE THREAT AT ");
-									possibleThreat.log();
 									return true;
 								}
 							}
 						}
-						
 						// remove since piece hit
-						iter.remove();
-						
+						iter.remove();						
 					} else {
 						delta.increment();
-					}
-					
+					}					
 				} else {
 					// remove from remaining deltas if out of bounds
 					iter.remove();
@@ -314,11 +306,13 @@ public class State {
 
 	// determine whether a move puts its king in check
 	public boolean moveMeetsCheckConstraint(Move mv) {
+		
 		Color pieceColor = Util.getColor(this.board[mv.from.row][mv.from.col]);
 		Vector relevantKing = pieceColor == Color.BLACK ? this.blackKing : this.whiteKing;
 		
 		// if previously potentially protecting king
 		if (Util.onSameLineOfThreat(mv.from, relevantKing)) {
+			
 			State moveState = new State(this, mv);
 			Vector relKingInMove = pieceColor == Color.BLACK ? moveState.blackKing : moveState.whiteKing;
 			
@@ -329,6 +323,28 @@ public class State {
 		}
 	}
 
+	// get all possible successors of this state
+	public ArrayList<State> getSuccessors() {
+		ArrayList<State> successors = new ArrayList<State>();
+		ArrayList<Move> moves;
+		
+		// iterate board
+		for (int r = 0; r < this.board.length; r++) {
+			for (int c = 0; c < this.board.length; c++) {
+				// if piece of current moving color
+				if (Util.getColor(this.board[r][c]) == this.currentTurnColor) {
+					// get possible moves and generate new states
+					moves = this.getAllPossibleMoves(new Vector(r, c));
+					for (Move m : moves) {
+						successors.add(new State(this, m));
+					}
+				}
+			}
+		}
+		
+		return successors;
+	}
+	
 	public void log() {
 		System.out.print("\n  ");
 		// DEBUG
@@ -351,5 +367,5 @@ public class State {
 			System.out.println("");
 		}	
 	}
-
+	
 }

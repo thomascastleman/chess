@@ -52,8 +52,12 @@ public class Vector {
 		return (this.row >= 0 && this.col >= 0) && (this.row < Main.BOARD_DIMENSIONS && this.col < Main.BOARD_DIMENSIONS);
 	}
 	
+	public String getNotationString() {
+		return String.valueOf(Util.notationLetters.charAt(this.row)) + String.valueOf(this.col + 1);
+	}
+	
 	// debug
 	public void log() {
-		System.out.println("(" + this.row + ", " + this.col + ")");
+		System.out.print("(" + this.row + ", " + this.col + ")");
 	}
 }

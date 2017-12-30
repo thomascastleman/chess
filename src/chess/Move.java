@@ -10,17 +10,16 @@ public class Move {
 		this.to = t;
 	}
 	
-	// debug 
-	public Move() {
-		
-	}
-	
 	public Move copy() {
 		return new Move(from.copy(), to.copy());
 	}
 	
+	public String getNotationString() {
+		return this.from.getNotationString() + " " + this.to.getNotationString();
+	}
+	
 	public void log() {
-		System.out.println("(" + this.from.row + ", " + this.from.col + ") to (" + this.to.row + ", " + this.to.col + ")");
+		System.out.print("(" + this.from.row + ", " + this.from.col + ") to (" + this.to.row + ", " + this.to.col + ")");
 	}
 
 }
