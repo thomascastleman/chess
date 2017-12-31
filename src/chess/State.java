@@ -15,7 +15,7 @@ public class State {
 	public Color currentTurnColor = Color.WHITE;	// color of player whose move it is
 	
 	public Move moveFromPrevious;	// move that resulted in this state
-	
+
 	public float value;	// evaluated value of this state
 	public int depth;	// relative depth at which this state was found
 
@@ -41,7 +41,6 @@ public class State {
 		this.board = Util.boardCopy(prevState.board);	// copy previous board
 		this.whiteKing = prevState.whiteKing.copy();	// copy previous king positions
 		this.blackKing = prevState.blackKing.copy();
-		this.currentTurnColor = Util.oppositeColor(prevState.currentTurnColor);
 		
 		this.makeMove(mv);
 	}
@@ -54,6 +53,8 @@ public class State {
 	// alter this state to reflect a move
 	public void makeMove(Move mv) {
 		this.moveFromPrevious = mv;	// update move from previous
+		this.currentTurnColor = Util.oppositeColor(this.currentTurnColor);
+		
 		Vector from = mv.from, to = mv.to;	// get to and from positions
 		char fromPiece = this.board[from.row][from.col];	// get piece to move
 		
@@ -75,20 +76,9 @@ public class State {
 		}
 	}
 
-	// check if state is a win state
+	// check if state is a terminal state (no possible successors)
 	public boolean isWin() {
-		Vector relevantKing;
-		if (this.currentTurnColor == Color.BLACK) {
-			relevantKing = this.blackKing;
-		} else {
-			relevantKing = this.whiteKing;
-		}
-		
-		if (this.isThreatened(relevantKing)) {
-			return this.getAllPossibleMoves(relevantKing).size() == 0;
-		} else {
-			return false;
-		}
+		return this.getSuccessors().size() == 0;
 	}
 
 	// get all available legal moves for a given position in this state
@@ -325,6 +315,7 @@ public class State {
 
 	// get all possible successors of this state
 	public ArrayList<State> getSuccessors() {
+		
 		ArrayList<State> successors = new ArrayList<State>();
 		ArrayList<Move> moves;
 		

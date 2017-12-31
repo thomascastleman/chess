@@ -1,23 +1,30 @@
 package chess;
 
 import java.util.*;
+import chess.Main.Color;
 
 public class Human implements Player {
 	
 	public Main.Color color;
+	public String name;
 	public static Scanner input = new Scanner(System.in);
 	
-	public Human(Main.Color _color) {
+	public Human(String _name, Main.Color _color) {
+		this.name = _name;
 		this.color = _color;
 	}
+	
+	// get name string
+	public String getName() { return this.name; }
+	
+	// get color
+	public Color getColor() { return this.color; }
 	
 	public Move getMove(State s) {
 		String inp = null;
 		
 		// loop until acceptable move entered
 		while (true) {
-		
-			System.out.print("Enter move: ");
 			
 			if (input.hasNextLine()) {
 				// read input

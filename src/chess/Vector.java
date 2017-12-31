@@ -10,6 +10,7 @@ public class Vector {
 		this.col = c;
 	}
 	
+	// determine if two vectors equal each other
 	public boolean vectorEquals(Vector v) {
 		return this.row == v.row && this.col == v.col;
 	}
@@ -30,8 +31,8 @@ public class Vector {
 		this.col += delta.col;
 	}
 	
+	// increment delta to fan out (nmoves)
 	public void increment() {
-		// increment delta to fan out
 		Vector increment = new Vector(0, 0);
 		if (this.row != 0) {
 			increment.row = this.row / Math.abs(this.row);
@@ -52,6 +53,7 @@ public class Vector {
 		return (this.row >= 0 && this.col >= 0) && (this.row < Main.BOARD_DIMENSIONS && this.col < Main.BOARD_DIMENSIONS);
 	}
 	
+	// get string algebraic chess notation representation
 	public String getNotationString() {
 		return String.valueOf(Util.notationLetters.charAt(this.row)) + String.valueOf(this.col + 1);
 	}

@@ -60,6 +60,10 @@ public class Util {
 	
 	// PIECE CHECKING FUNCTIONS:
 	
+	public static boolean isKing(char piece) {
+		return piece == Main.WHITE_KING || piece == Main.BLACK_KING;
+	}
+	
 	public static boolean isPawn(char piece) {
 		return piece == Main.WHITE_PAWN || piece == Main.BLACK_PAWN;
 	}
@@ -83,11 +87,5 @@ public class Util {
 	public static boolean isNMove(char piece) {
 		return isQueen(piece) || isRook(piece) || isBishop(piece);
 	}
-	
-	public static boolean isKing(char piece) {
-		return piece == Main.WHITE_KING || piece == Main.BLACK_KING;
-	}
-	
-	
 
 }

@@ -22,10 +22,12 @@ public class ChessGame {
 			for (Player p : players) {
 				this.currentState.log();	// show state
 				
+				System.out.print("(" + p.getColor() + ") " + p.getName() + "'s move: ");
 				Move mv = p.getMove(this.currentState);	// solicit move from player
 				this.currentState.makeMove(mv);	// update board
 				
 				if (this.currentState.isWin()) {
+					System.out.println(p.getName() + " wins.");
 					winner = p;
 					break;
 				}
@@ -35,6 +37,7 @@ public class ChessGame {
 				break;
 			}
 		}
+		
 	}
 	
 }

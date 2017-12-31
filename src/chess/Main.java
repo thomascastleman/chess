@@ -79,11 +79,12 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		Player white = new Human(Color.WHITE);
-		Player black = new Human(Color.BLACK);
+		Player white = new Human("P1", Color.WHITE);
+		Player black = new Engine("P2", Color.BLACK, 3);
 		ChessGame g = new ChessGame(white, black);
 		
 		
+		// debug: tests with rigged board states
 		char[][] testBoard = new char[8][8];
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
@@ -92,23 +93,15 @@ public class Main {
 		}
 		
 		testBoard[1][0] = WHITE_KING;
-		testBoard[4][7] = BLACK_KING;
+		testBoard[7][7] = BLACK_KING;
 		
-		testBoard[6][1] = WHITE_BISHOP;
+		testBoard[6][4] = WHITE_QUEEN;
+		testBoard[6][1] = WHITE_ROOK;
 		
 		g.currentState = new State(testBoard);
 		
-		g.currentState.log();
 		
-		ArrayList<State> s = g.currentState.getSuccessors();
-		
-		System.out.println(s.size() + " states");
-		for (State st : s) {
-			System.out.println(st.moveFromPrevious.getNotationString());
-		}
-		
-		
-		
+		g.initGame();
 		
 	}
 
