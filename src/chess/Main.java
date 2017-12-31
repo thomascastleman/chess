@@ -1,39 +1,37 @@
 package chess;
 
-import java.util.*;
-
 public class Main {
 	
 	public static enum Color {BLACK, WHITE};
 	public static final int BOARD_DIMENSIONS = 8;
 	
 	// chess piece character encodings
-	public static final char WHITE_KING = '\u2654';
-	public static final char WHITE_QUEEN = '\u2655';
-	public static final char WHITE_ROOK = '\u2656';
+	public static final char WHITE_KING =	'\u2654';
+	public static final char WHITE_QUEEN =	'\u2655';
+	public static final char WHITE_ROOK =	'\u2656';
 	public static final char WHITE_BISHOP = '\u2657';
 	public static final char WHITE_KNIGHT = '\u2658';
-	public static final char WHITE_PAWN = '\u2659';
+	public static final char WHITE_PAWN =	'\u2659';
 	
-	public static final char BLACK_KING = '\u265a';
-	public static final char BLACK_QUEEN = '\u265b';
-	public static final char BLACK_ROOK = '\u265c';
+	public static final char BLACK_KING =	'\u265a';
+	public static final char BLACK_QUEEN =	'\u265b';
+	public static final char BLACK_ROOK =	'\u265c';
 	public static final char BLACK_BISHOP = '\u265d';
 	public static final char BLACK_KNIGHT = '\u265e';
-	public static final char BLACK_PAWN = '\u265f';
+	public static final char BLACK_PAWN =	'\u265f';
 	
-	public static final char NULL_CHAR = '\u0000';	// for empty positions
+	public static final char NULL_CHAR =	'\u0000';	// for empty positions
 	
 	// initial board configuration
 	public static char[][] initialBoard = {
-			{WHITE_ROOK, WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_ROOK},
-			{WHITE_KNIGHT, WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_KNIGHT},
-			{WHITE_BISHOP, WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_BISHOP},
-			{WHITE_QUEEN, WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_QUEEN},
-			{WHITE_KING, WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_KING},
-			{WHITE_BISHOP, WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_BISHOP},
-			{WHITE_KNIGHT, WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_KNIGHT},
-			{WHITE_ROOK, WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_ROOK},
+			{WHITE_ROOK,	WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_ROOK},
+			{WHITE_KNIGHT,	WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_KNIGHT},
+			{WHITE_BISHOP,	WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_BISHOP},
+			{WHITE_QUEEN,	WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_QUEEN},
+			{WHITE_KING,	WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_KING},
+			{WHITE_BISHOP,	WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_BISHOP},
+			{WHITE_KNIGHT,	WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_KNIGHT},
+			{WHITE_ROOK,	WHITE_PAWN, '\u0000', '\u0000', '\u0000', '\u0000', BLACK_PAWN, BLACK_ROOK},
 	};
 	
 	// possible axis moves (horizontal / vertical)
