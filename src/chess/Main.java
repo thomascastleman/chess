@@ -82,21 +82,21 @@ public class Main {
 		ChessGame g = new ChessGame(white, black);
 		
 		
-		// debug: tests with rigged board states
-		char[][] testBoard = new char[8][8];
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
-				testBoard[i][j] = NULL_CHAR;
-			}
-		}
-		
-		testBoard[1][0] = WHITE_KING;
-		testBoard[7][7] = BLACK_KING;
-		
-		testBoard[6][4] = WHITE_QUEEN;
-		testBoard[6][1] = WHITE_ROOK;
-		
-		g.currentState = new State(testBoard);
+//		// debug: tests with rigged board states
+//		char[][] testBoard = new char[8][8];
+//		for (int i = 0; i < 8; i++) {
+//			for (int j = 0; j < 8; j++) {
+//				testBoard[i][j] = NULL_CHAR;
+//			}
+//		}
+//		
+//		testBoard[1][0] = WHITE_KING;
+//		testBoard[7][7] = BLACK_KING;
+//		
+//		testBoard[6][4] = WHITE_QUEEN;
+//		testBoard[6][1] = WHITE_ROOK;
+//		
+//		g.currentState = new State(testBoard);
 		
 		
 		g.initGame();

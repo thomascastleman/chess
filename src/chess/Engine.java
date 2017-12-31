@@ -37,12 +37,14 @@ public class Engine implements Player {
 			} else {
 				currentState.value = Float.POSITIVE_INFINITY;	// win, so infinitely good
 			}
+			currentState.depth = currentDepth;
 			return currentState;
 		
 		// if maximum search depth reached
 		} else if (currentDepth == this.searchDepth) {
 			// evaluate heuristically
 			currentState.value = this.boardEval(currentState);
+			currentState.depth = currentDepth;
 			return currentState;
 		
 		// otherwise, evaluate recursively
@@ -54,7 +56,7 @@ public class Engine implements Player {
 			
 			// iterate child states
 			for (State child : children) {
-				// evaluate child state worth
+				//  inherit depth and value from evaluation of child's child states
 				State state = this.minimax(child, !isMaximizing, currentDepth + 1);
 				child.depth = state.depth;
 				child.value = state.value;
