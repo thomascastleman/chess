@@ -53,6 +53,29 @@ public class Human implements Player {
 							}
 						}					
 					}
+				} else if (inp.matches("list\\s[a-z]\\d")) {
+					
+					String[] split = inp.split(" ");
+					Vector pos =  new Vector(Util.notationLetters.indexOf(split[1].charAt(0)), (split[1].charAt(1) - '0') - 1);
+					
+					if (s.pieceAt(pos) != Main.NULL_CHAR) {
+						ArrayList<Move> possible = s.getAllPossibleMoves(pos);
+						for (Move m : possible) {
+							System.out.println(m.getNotationString());
+						}
+					}
+				} else if (inp.matches("list all")) {
+					for (int r = 0; r < s.board.length; r++) {
+						for (int c = 0; c < s.board.length; c++) {
+							char piece = s.board[r][c];
+							if (piece != Main.NULL_CHAR && Util.getColor(piece) == s.currentTurnColor) {
+								ArrayList<Move> possible = s.getAllPossibleMoves(new Vector(r, c));
+								for (Move m : possible) {
+									System.out.println(m.getNotationString());
+								}
+							}
+						}
+					}
 				}
 				
 				System.out.print("(" + this.color + ") " + this.name + "'s move: ");

@@ -197,21 +197,37 @@ public class State {
 					movePosition = position.add(delta);
 					mv = new Move(position, movePosition);
 					
+					// if position legal and empty or attacking
 					if (
 							movePosition.isLegalPosition() && 
-							(this.pieceAt(movePosition) == Main.NULL_CHAR || Util.getColor(this.pieceAt(movePosition)) == oppositeColor) && 
-							this.moveMeetsCheckConstraint(mv)
+							(this.pieceAt(movePosition) == Main.NULL_CHAR || Util.getColor(this.pieceAt(movePosition)) == oppositeColor)
 						) {
 						
-						moves.add(mv);	// accept move
+						// if passes check constraint
+						if (this.moveMeetsCheckConstraint(mv)) {
+							
+							moves.add(mv); // accept move
+							
+							//  if more room to search and piece able to move further (not king)
+							if (this.pieceAt(movePosition) == Main.NULL_CHAR && !Util.isKing(piece)) {
+								delta.increment();
+							} else {
+								iter.remove();
+							}
 						
-						//  if more room to search and piece able to move further (not king)
-						if (this.pieceAt(movePosition) == Main.NULL_CHAR && !Util.isKing(piece)) {
-							delta.increment();
+						// continue searching if ALREADY in check
+						} else if (this.isCheck()) {
+							//  if more room to search and piece able to move further (not king)
+							if (this.pieceAt(movePosition) == Main.NULL_CHAR && !Util.isKing(piece)) {
+								delta.increment();
+							} else {
+								iter.remove();
+							}
+						// if this path PUT king in check, abandon search
 						} else {
 							iter.remove();
 						}
-					
+						
 					} else {
 						iter.remove();
 					}
@@ -318,7 +334,7 @@ public class State {
 		Vector relevantKing = pieceColor == Color.BLACK ? this.blackKing : this.whiteKing;
 		
 		// if previously potentially protecting king
-		if (Util.onSameLineOfThreat(mv.from, relevantKing)) {
+		if (Util.onSameLineOfThreat(mv.from, relevantKing) || this.isCheck()) {
 			
 			State moveState = new State(this, mv);
 			Vector relKingInMove = pieceColor == Color.BLACK ? moveState.blackKing : moveState.whiteKing;

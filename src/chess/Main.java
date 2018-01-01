@@ -79,27 +79,9 @@ public class Main {
 		
 		Player black = new Human("Thomas", Color.BLACK);
 		Player white = new Engine("Engine", Color.WHITE, 4);
-		ChessGame g = new ChessGame(white, black);
+		ChessGame game = new ChessGame(white, black);
 		
-		
-//		// debug: tests with rigged board states
-//		char[][] testBoard = new char[8][8];
-//		for (int i = 0; i < 8; i++) {
-//			for (int j = 0; j < 8; j++) {
-//				testBoard[i][j] = NULL_CHAR;
-//			}
-//		}
-//		
-//		testBoard[1][0] = WHITE_KING;
-//		testBoard[7][7] = BLACK_KING;
-//		
-//		testBoard[6][5] = BLACK_ROOK;
-//		testBoard[7][6] = BLACK_QUEEN;
-//		
-//		g.currentState = new State(testBoard);
-		
-		
-		g.initGame();
+		game.initGame();
 		
 	}
 
