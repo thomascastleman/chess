@@ -43,6 +43,7 @@ public class State {
 		this.board = Util.boardCopy(prevState.board);	// copy previous board
 		this.whiteKing = prevState.whiteKing.copy();	// copy previous king positions
 		this.blackKing = prevState.blackKing.copy();
+		this.currentTurnColor = prevState.currentTurnColor;
 		
 		this.makeMove(mv);
 	}
@@ -81,6 +82,14 @@ public class State {
 		// if king captured
 		if (Util.isKing(toPiece)) {
 			this.kingCaptured = true;
+		}
+	}
+	
+	public boolean isCheck() {
+		if (this.currentTurnColor == Color.BLACK) {
+			return this.isThreatened(this.blackKing);
+		} else {
+			return this.isThreatened(this.whiteKing);
 		}
 	}
 

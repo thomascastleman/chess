@@ -54,6 +54,8 @@ public class Human implements Player {
 						}					
 					}
 				}
+				
+				System.out.print("(" + this.color + ") " + this.name + "'s move: ");
 			}
 		}
 	

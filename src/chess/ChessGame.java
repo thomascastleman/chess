@@ -30,6 +30,8 @@ public class ChessGame {
 					System.out.println(p.getName() + " wins.");
 					winner = p;
 					break;
+				} else if (this.currentState.isCheck()) {
+					System.out.println("\nCheck from " + currentState.moveFromPrevious.getNotationString());
 				}
 			}
 			

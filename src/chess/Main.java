@@ -93,8 +93,8 @@ public class Main {
 //		testBoard[1][0] = WHITE_KING;
 //		testBoard[7][7] = BLACK_KING;
 //		
-//		testBoard[6][4] = WHITE_QUEEN;
-//		testBoard[6][1] = WHITE_ROOK;
+//		testBoard[6][5] = BLACK_ROOK;
+//		testBoard[7][6] = BLACK_QUEEN;
 //		
 //		g.currentState = new State(testBoard);
 		
