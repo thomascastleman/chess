@@ -11,6 +11,8 @@ public class State {
 	// king positions for win checking
 	public Vector blackKing;
 	public Vector whiteKing;
+	
+	public boolean kingCaptured;
 
 	public Color currentTurnColor = Color.WHITE;	// color of player whose move it is
 	
@@ -56,7 +58,8 @@ public class State {
 		this.currentTurnColor = Util.oppositeColor(this.currentTurnColor);
 		
 		Vector from = mv.from, to = mv.to;	// get to and from positions
-		char fromPiece = this.board[from.row][from.col];	// get piece to move
+		char fromPiece = this.pieceAt(from);	// get piece to move
+		char toPiece = this.pieceAt(to);	// get piece captured to check for win
 		
 		// update king positions if necessary
 		if (fromPiece == Main.BLACK_KING) {
@@ -74,11 +77,16 @@ public class State {
 		} else {
 			this.board[to.row][to.col] = fromPiece;
 		}
+		
+		// if king captured
+		if (Util.isKing(toPiece)) {
+			this.kingCaptured = true;
+		}
 	}
 
 	// check if state is a terminal state (no possible successors)
 	public boolean isWin() {
-		return this.getSuccessors().size() == 0;
+		return this.kingCaptured || this.getSuccessors().size() == 0;
 	}
 
 	// get all available legal moves for a given position in this state
