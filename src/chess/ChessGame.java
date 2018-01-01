@@ -9,6 +9,8 @@ public class ChessGame {
 	// current board state
 	public State currentState = new State(Main.initialBoard);
 	
+	public int moveCount;
+	
 	public ChessGame(Player white, Player black) {
 		this.player_white = white;
 		this.player_black = black;
@@ -25,9 +27,10 @@ public class ChessGame {
 				System.out.print("(" + p.getColor() + ") " + p.getName() + "'s move: ");
 				Move mv = p.getMove(this.currentState);	// solicit move from player
 				this.currentState.makeMove(mv);	// update board
+				this.moveCount++;	// increment move counter
 				
 				if (this.currentState.isWin()) {
-					System.out.println(p.getName() + " wins.");
+					System.out.println(p.getName() + " wins in " + this.moveCount + " moves.");
 					winner = p;
 					break;
 				} else if (this.currentState.isCheck()) {
