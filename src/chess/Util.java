@@ -58,6 +58,11 @@ public class Util {
 		}
 	}
 	
+	// for board eval, white is bound to 0, black to 1
+	public static int getCorrespondingBit(Color col) {
+		return col == Color.BLACK ? 1 : 0;
+	}
+	
 	// PIECE CHECKING FUNCTIONS:
 	
 	public static boolean isKing(char piece) {

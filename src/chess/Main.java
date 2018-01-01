@@ -77,8 +77,8 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		Player white = new Human("P1", Color.WHITE);
-		Player black = new Engine("P2", Color.BLACK, 3);
+		Player white = new Human("Thomas", Color.WHITE);
+		Player black = new Engine("Engine", Color.BLACK, 4);
 		ChessGame g = new ChessGame(white, black);
 		
 		

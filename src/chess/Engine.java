@@ -43,7 +43,7 @@ public class Engine implements Player {
 		// if maximum search depth reached
 		} else if (currentDepth == this.searchDepth) {
 			// evaluate heuristically
-			currentState.value = this.boardEval(currentState);
+			currentState.value = this.boardEval(currentState, this.color);
 			currentState.depth = currentDepth;
 			return currentState;
 		
@@ -110,8 +110,105 @@ public class Engine implements Player {
 	}
 	
 	// evaluate a board position
-	public int boardEval(State s) {
-		return 0;
+	public float boardEval(State s, Color selfColor) {
+		
+		// get indices for accessing counter arrays
+		int self = Util.getCorrespondingBit(selfColor);
+		int opponent = self == 0 ? 1 : 0;
+		
+		// piece counts
+		int[] queens = new int[2];
+		int[] rooks = new int[2];
+		int[] bishops = new int[2];
+		int[] knights = new int[2];
+		int[] pawns = new int[2];
+		
+		// for pawn evaluation
+		int[][] filePawnCounts = new int[2][Main.BOARD_DIMENSIONS];
+		int[] doubled = new int[2];
+		int[] isolated = new int[2];
+		int[] blocked = new int[2];
+		
+		// move counts
+		int[] moves = new int[2];
+		
+		// iterate board
+		for (int r = 0; r < s.board.length; r++) {
+			for (int c = 0; c < s.board.length; c++) {
+				char piece = s.board[r][c];	// get piece value
+				int bit = Util.getCorrespondingBit(Util.getColor(piece));
+				
+				if (piece != Main.NULL_CHAR) {				
+					// update relevant piece count
+					if (Util.isQueen(piece)) { queens[bit]++; } else
+					if (Util.isRook(piece)) { rooks[bit]++; } else
+					if (Util.isBishop(piece)) { bishops[bit]++; } else
+					if (Util.isKnight(piece)) { knights[bit]++; } else
+					if (Util.isPawn(piece)) { 
+						pawns[bit]++;
+						filePawnCounts[bit][r]++;
+						
+						// if blocked
+						if (c < Main.BOARD_DIMENSIONS - 1 && s.board[r][c + 1] != Main.NULL_CHAR) {
+							blocked[bit]++;
+						}												
+					}
+					
+					// update move count
+					moves[bit] += s.getAllPossibleMoves(new Vector(r, c)).size();
+				}
+			}
+		}
+		
+		// extract pawn information
+		for (int bit = 0; bit < filePawnCounts.length; bit++) {
+			for (int file = 0; file < filePawnCounts[bit].length; file++) {
+				int current = filePawnCounts[bit][file];
+				
+				// check for doubled pawns
+				if (current > 1) {
+					doubled[bit]++;
+				}
+				
+				int prev = 0;
+				int next = 0;
+				if (file - 1 >= 0) {
+					prev = filePawnCounts[bit][file - 1];
+				}
+				if (file + 1 < filePawnCounts[bit].length) {
+					next = filePawnCounts[bit][file + 1];
+				}
+				
+				// check for isolated pawns
+				if ((prev == 0 && next == 0) && current > 0) {
+					isolated[bit]++;
+				}
+			}
+		}
+		
+//		// debug
+//		System.out.println("ENGINE COUNTS: ");
+//		System.out.println("Queens: " + queens[self]);
+//		System.out.println("Rooks: " + rooks[self]);
+//		System.out.println("Bishops: " + bishops[self]);
+//		System.out.println("Knights: " + knights[self]);
+//		System.out.println("Pawns: " + pawns[self]);
+//		System.out.println("Moves --> " + moves[self]);
+//		
+//		System.out.println("OPPONENT COUNTS: ");
+//		System.out.println("Queens: " + queens[opponent]);
+//		System.out.println("Rooks: " + rooks[opponent]);
+//		System.out.println("Bishops: " + bishops[opponent]);
+//		System.out.println("Knights: " + knights[opponent]);
+//		System.out.println("Pawns: " + pawns[opponent]);
+//		System.out.println("Moves --> " + moves[opponent]);
+		
+		return (float) ((9 * (queens[self] - queens[opponent]))
+				+ (5 * (rooks[self] - rooks[opponent]))
+				+ (3 * (bishops[self] - bishops[opponent] + knights[self] - knights[opponent]))
+				+ (pawns[self] - pawns[opponent])
+				- (0.5 * (doubled[self] - doubled[opponent] + blocked[self] - blocked[opponent] + isolated[self] - isolated[opponent]))
+				+ (0.1 * (moves[self] - moves[opponent])));
 	}
-	
+
 }
